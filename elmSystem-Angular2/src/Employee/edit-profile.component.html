@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="container center_div" >
+    <h3 style="margin-left: 37%;color: black;padding-top: 10px"> Edit your profile </h3>
+    <form [formGroup]= "editProfileForm" novalidate (ngSubmit)="editProfile()">
+
+      <input type="text"  class="form-control" #fullName readonly formControlName="fullName" placeholder={{profile.fullName}}  autofocus>
+
+      <input type="text"  class="form-control" #emp_id disabled formControlName="emp_id" [(ngModel)]="employye_id"  autofocus>
+
+      <input type="email"  class="form-control" #email formControlName="email" placeholder=  {{profile.email}} required autofocus>
+      <div class="alert alert-danger" *ngIf="!(email.value.match('@'&&'.com'))">
+        please enter valid email (ex: abc@gmail.com)
+      </div>
+      <input type="number"  class="form-control" maxlength="10" minlength="10" #mobile formControlName="mobile" placeholder={{profile.mobile}} required autofocus>
+      <div class="alert alert-danger" *ngIf="!(mobile.value.length===10) || mobile.value<=0">
+        please enter valid mobile number
+      </div>
+
+      <input type="text"  class="form-control" minlength="3" #project formControlName="project" placeholder={{profile.project}} required autofocus>
+      <div class="alert alert-danger" *ngIf="editProfileForm.controls['project'].hasError('required')">
+        please enter user name
+      </div>
+      <input type="text"  class="form-control"  #project formControlName="designation" placeholder={{profile.designation}}  autofocus>
+
+
+      <button  type="submit" [disabled]="!editProfileForm.valid" class="btn btn-lg btn-primary btn-block">Submit</button>
+
+      <!--<p *ngIf="error" style="color: red;font-family:KacstOffice;font-style: italic">invalid user name or password !!!</p>-->
+
+      <p *ngIf="errorMsg" style="color: red;font-family:KacstOffice;font-style: italic">invalid user name or password !!!</p>
+
+    </form>
+    <!--<p *ngIf="postData && postData.flag">{{postData.flag}}&#45;&#45;{{postData.emp_id}}&#45;&#45;{{postData.fullName}}&#45;&#45;{{postData.designation}}</p>-->
+    <!--<p *ngIf="postData && postData.flag" >-->
+    <!--&lt;!&ndash;<button type="submit" routerLink="/admin" routerLinkActive="active">admin</button>&ndash;&gt;-->
+    <!--</p>-->
+  </div>
+
+  <div style="margin-top: " class="alert alert-success" *ngIf=" editProfileToken === true">
+    <strong>Success!</strong> your password has been changed successfully...
+  </div>
+
+</div>
+
+</body>
+</html>

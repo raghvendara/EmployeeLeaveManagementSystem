@@ -1,0 +1,22 @@
+input{width: 400px}
+#passwd2,#lname,#designation,#mobile{width: 200px}
+#sel1{
+  width: 400px;
+}
+h4{
+  text-align: center;
+}
+.Form
+{
+  border: rgba(0,0,0,0.14);
+  background-color: #d5d5d5;
+  width: 70%;
+  maxheight: 100%;
+  text-align: center;
+  margin-left: 15%;
+  margin-top: 20px;
+}
+.table
+{
+  text-align: center;
+}

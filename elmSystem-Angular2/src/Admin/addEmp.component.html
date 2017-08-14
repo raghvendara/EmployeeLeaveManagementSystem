@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h4> Add Employee</h4>
+<div class="Form">
+<form [formGroup]= "empForm" (ngSubmit)="addEmp()">
+  <table class="table">
+
+    <tr>
+      <td>
+        <input  type="text"  #Fname required class="form-control" formControlName="firstName" placeholder="First Name" required autofocus>
+      </td>
+      <!--<div [hidden]="Fname.valid" class="alert alert-danger">please enter name</div>-->
+      <td>
+        <input id="lname" type="text" #LName class="form-control" formControlName="lastName" placeholder="Last Name" required autofocus>
+      </td>
+    </tr>
+
+    <tr>
+      <td><input id="eid" type="text"  class="form-control" formControlName="empID" placeholder="Employee ID" required autofocus></td>
+      <td>
+
+        <select class="form-control" formControlName="designation" id="designation">
+          <option selected disabled>Select Designation</option>
+          <option value="employee">Employee</option>
+          <option value="PM">Project Manager</option>
+          <option value="TL">Team Leader</option>
+        </select>
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <!--<select class="selectpicker">-->
+          <!--<option>Mustard</option>-->
+          <!--<option>Ketchup</option>-->
+          <!--<option>Relish</option>-->
+        <!--</select>-->
+
+        <select class="selectpicker" class="form-control" formControlName="project" id="sel1">
+          <option selected disabled>Select Project</option>
+          <option value="orbipay">Orbipay</option>
+          <option value="hsbc">HSBC</option>
+          <option value="payelite">PayElite</option>
+        </select>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <input type="email" class="form-control"  formControlName="email" placeholder="email">
+      </td>
+      <td>
+        <input type="text" class="form-control" id="mobile"  formControlName="mobileNumber" placeholder="Mobile Number">
+      </td>
+    </tr>
+
+
+    <tr>
+      <td>
+        <input type="text" class="form-control"  formControlName="userName" placeholder="User Name">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="password" class="form-control"   formControlName="password" placeholder="Password">
+      </td>
+      <!--<td>-->
+        <!--<input type="password" class="form-control" id="passwd2"  formControlName="password2" placeholder="Confirm Password">-->
+      <!--</td>-->
+    </tr>
+
+
+    <tr>
+      <td colspan="2">
+        <button type="submit" class="btn btn-lg btn-primary">Register Employee</button>
+        <button type="reset" class="btn btn-lg btn-primary">Clear Form</button>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <p *ngIf="(responseToAdd==false)" style="color: red;font-family:KacstOffice;font-style: italic">invalid details !!!</p>
+      </td>
+    </tr>
+  </table>
+
+</form>
+
+</div>
+</body>
+</html>

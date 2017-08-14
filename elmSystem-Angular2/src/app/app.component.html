@@ -1,0 +1,31 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<div class="header">
+  <h2 style="padding-top: 3px">
+    <b> <label style="color: rgba(221,50,147,0.86);text-shadow: 2px 2px 4px #000000;">ELM Portal</label></b>
+  </h2>
+</div>
+
+<div class="icon-bar" >
+  <a class="active" routerLink="home" routerLinkActive="active"><i class="fa fa-home"></i> Home</a>
+  <a href="#"><i class="fa fa-envelope"></i> about</a>
+  <a href="#"><i class="fa fa-globe"></i> contact</a>
+  <a *ngIf="isLoggedIn===false" routerLink="home/login" routerLinkActive="active"><i class="glyphicon glyphicon-log-in"></i> login</a>
+  <a *ngIf="isLoggedIn===true" (click)="onLogOutClick()" ><i class="glyphicon glyphicon-log-out"></i> logout</a>
+<!--{{isLogged}}-->
+</div>
+
+<div class="Routing">
+  <router-outlet></router-outlet>
+</div>
+
+<div class="footer">
+  <h3>Alacriti&copy; 2017</h3>
+</div>
+
+
+<!--
+<app-login></app-login>
+
+<app-admin></app-admin>
+-->

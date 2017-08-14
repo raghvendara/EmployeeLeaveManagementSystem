@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="background-color: whitesmoke">
+
+<h4 style="color: black;padding-top: 10px;margin-left: 5%">Welcome {{name}} ({{emp_id}}) ({{designation}}) ({{projectName}})</h4>
+<div class="button">
+  <button class="btn btn-primary" (click)="getMyLeavesTable()"> click to see the leave table </button>
+</div>
+<div class="button">
+  <button class="btn btn-primary" (click)="getMyLeavesInfo()"> click to see the leaves info</button>
+</div>
+<div class="button">
+  <button class="btn btn-primary" (click)="editProfile()"> click to edit profile</button>
+</div>
+<div *ngIf="success" class="container">
+  <table class="table table-hover">
+    <tr>
+      <td><b>empID</b></td>
+      <td><b>availed_leaves</b></td>
+      <td><b>bal_in_sick</b></td>
+      <td><b>bal_in_casual</b></td>
+      <td><b>bal_in_privilege</b></td>
+      <td><b>total_bal_leaves</b></td>
+    </tr>
+    <tr>
+      <td>{{myLeavesInfo.emp_id}}</td>
+      <td>{{myLeavesInfo.availed_leaves}}</td>
+      <td>{{myLeavesInfo.bal_in_sick}}</td>
+      <td>{{myLeavesInfo.bal_in_casual}}</td>
+      <td>{{myLeavesInfo.bal_in_privilege}}</td>
+      <td>{{myLeavesInfo.total_bal_leaves}}</td>
+    </tr>
+  </table>
+<hr>
+</div>
+
+<div *ngIf="successForList" class="container">
+  <!--*ngIf="empLeaveList.leaveID"-->
+  <table class="table table-hover">
+    <tr>
+      <td><b>leaveId</b></td>
+      <td><b>leave_type</b></td>
+      <td><b>no_of_days</b></td>
+      <td><b>reason</b></td>
+      <td><b>team_lead_status</b></td>
+      <td><b>proj_man_status</b></td>
+      <td><b>hr_status</b></td>
+      <td><b>applied_date</b></td>
+      <td><b>date_of_leave</b></td>
+
+    </tr>
+    <tr *ngFor="let empList of myLeaveList">
+
+      <td>{{empList.leaveID}}</td>
+      <td>{{empList.leave_type}}</td>
+      <td>{{empList.no_of_days}}</td>
+      <td>{{empList.reason}}</td>
+      <td>{{empList.team_lead_status}}</td>
+      <td>{{empList.proj_man_status}}</td>
+      <td>{{empList.hr_status}}</td>
+      <td>{{empList.applied_date}}</td>
+      <td>{{empList.date_of_leave}}</td>
+
+
+    </tr>
+  </table>
+</div>
+
+</body>
+</html>

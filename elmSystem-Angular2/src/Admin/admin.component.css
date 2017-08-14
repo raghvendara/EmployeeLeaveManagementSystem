@@ -1,0 +1,31 @@
+.container{
+  margin-top: 20px;
+  margin-left: 30px;
+  width: auto;
+  float: left;
+}
+.list-group
+{
+  padding-top: 10px;
+}
+.EmpSearch
+{
+  margin-top: 60px;
+  margin-left: 50px;
+  width: 15%;
+  height: 500%;
+  float: left;
+}
+.AddEmp{
+  margin-top: 60px;
+  width: auto;
+  float: right;
+  background-color: whitesmoke;
+  margin-right: 20%;
+}
+
+.logout{
+  margin-top: 20px;
+  float: right;
+  margin-right: 5%;
+}

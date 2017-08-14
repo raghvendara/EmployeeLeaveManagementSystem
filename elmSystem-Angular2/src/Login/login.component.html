@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Insert title here</title>
+
+</head>
+
+<body style="background-color: whitesmoke">
+
+<!--<div class="icon-bar">-->
+  <!--<a class="active" (click)="goTohom"><i class="fa fa-home"></i>Home</a>-->
+  <!--<a href="#"><i class="fa fa-envelope"></i>about</a>-->
+  <!--<a href="#"><i class="fa fa-globe"></i>contact</a>-->
+  <!--<a href="#"><i class="fa fa-trash"></i>help</a>-->
+  <!--<a routerLink="login" routerLinkActive="active"><i class="glyphicon glyphicon-log-in"></i>login</a>-->
+  <!--&lt;!&ndash;{{isLogged}}&ndash;&gt;-->
+<!--</div>-->
+<h3 style="margin-left: 37%;color: #575757;padding-top: 10px"> Sign in to continue </h3>
+
+<div class="border">
+
+<div class="container center_div" >
+
+  <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+       alt="">
+  <form [formGroup]= "userForm" (ngSubmit)="onTestPost()">
+
+        <!--<td><label>User Name :</label></td>-->
+    <input type="text" #userName class="form-control"  formControlName="userName" placeholder="username" required autofocus>
+
+
+    <!--<td><label>Password :</label></td>-->
+        <input type="password" #password class="form-control" formControlName="password" placeholder="password" required autofocus>
+
+
+
+        <button  type="submit" class="btn btn-lg btn-primary btn-block">sign in</button>
+
+        <a  routerLink="forgotPassword" routerLinkActive="active">forgot password ?</a>
+      <p *ngIf="error" style="color: red;font-family:KacstOffice;font-style: italic">invalid user name or password !!!</p>
+
+
+  </form>
+<!--<p *ngIf="postData && postData.flag">{{postData.flag}}&#45;&#45;{{postData.emp_id}}&#45;&#45;{{postData.fullName}}&#45;&#45;{{postData.designation}}</p>-->
+  <!--<p *ngIf="postData && postData.flag" >-->
+  <!--&lt;!&ndash;<button type="submit" routerLink="/admin" routerLinkActive="active">admin</button>&ndash;&gt;-->
+  <!--</p>-->
+</div>
+</div>
+</body>
+</html>
+
+

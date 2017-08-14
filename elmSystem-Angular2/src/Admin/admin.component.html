@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+<h4 style="color: #555555;text-shadow: 1px 1px 2px #000000;"><b>Welcome {{name}} ({{emp_id}}) ({{designation}}) ({{projectName}})</b></h4>
+<h4 style="margin-top: 30px;margin-bottom: 30px" *ngIf="employees.length!==0"><b>Requested Eemployees for Leave</b></h4>
+  <h4 style="margin-top: 30px;margin-bottom: 30px" *ngIf="employees.length==0"><b>You have no requests for Leaves ...!</b></h4>
+
+  <table *ngIf="employees.length!==0" class="table table-hover">
+    <tr>
+      <td><b>Employee ID</b></td>
+      <td><b>Name</b></td>
+      <td><b>Leave Type</b></td>
+      <td><b>Applied Date</b></td>
+      <td><b>Leave Date</b></td>
+      <td><b>No.of days</b></td>
+      <td><b>Reason</b></td>
+      <td><b>Accept</b></td>
+      <td><b>Reject</b></td>
+
+
+    </tr>
+      <tr *ngFor='let emoployee of employees'>
+        <td>{{emoployee.emp_id}}</td>
+        <td>{{emoployee.fullName}}</td>
+        <td>{{emoployee.leave_type}}</td>
+        <td>{{emoployee.applied_date}}</td>
+        <td>{{emoployee.date_of_leave}}</td>
+        <td>{{emoployee.noOfDays}}</td>
+        <td>{{emoployee.reason}}</td>
+        <td><button class="btn btn-primary" type="button" (click)="acceptLeave(emoployee,designation)">accept</button>{{leaveAcceptToken}}</td>
+        <td><button class="btn btn-primary" type="button" (click)="rejectLeave(emoployee,designation)" >reject</button>{{leaveRejectToken}}</td>
+      </tr>
+    </table>
+</div>
+
+<div class="EmpSearch">
+  <button type="button" class="btn btn-primary" (click)="routeToEmpSearch()" >click to search Employee</button>
+</div>
+
+<div *ngIf="designation==='HR'" class="AddEmp">
+  <button type="button" class="btn btn-primary" (click)="addEmp()" >Add an employee</button>
+</div>
+</body>
+</html>
