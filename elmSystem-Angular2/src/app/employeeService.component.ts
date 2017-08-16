@@ -57,7 +57,7 @@ export class EmployeeService {
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
-    return this._http.post(_url3, emoployee,{withCredentials: true })
+    return this._http.post(_url3, emoployee, {withCredentials: true })
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }
@@ -145,6 +145,15 @@ export class EmployeeService {
     headers.append('Content-Type',
       'application/json');
     return this._http.post(_url, editProfileForm )
+      .map((response: Response) => response.json())
+      .catch(this._errorHandler);
+  }
+  applyLeave(applyLeaveForm) {
+    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/login/apply-leave';
+    const headers = new Headers();
+    headers.append('Content-Type',
+      'application/json');
+    return this._http.post(_url, applyLeaveForm )
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }

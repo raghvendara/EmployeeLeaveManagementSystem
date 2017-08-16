@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {EmployeeService} from '../app/employeeService.component';
 import {ActivatedRoute, Params} from '@angular/router';
 import {Router} from '@angular/router';
+import {LoginServiceComponent} from "../Login/loginService.component";
 
 @Component({
   selector: 'app-admin',
@@ -19,7 +20,8 @@ export class AdminComponent implements OnInit {
   public leaveAcceptToken;
   public leaveRejectToken;
   public sessionDestroyToken;
-  constructor(private _employeeServive: EmployeeService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private _employeeServive: EmployeeService, private route: ActivatedRoute, private router: Router,
+              private _loginService: LoginServiceComponent) {}
   ngOnInit() {
    this.getAdminInfo = this.route.snapshot.params['data'];
    this.route.params.subscribe((params: Params) => {
@@ -36,18 +38,21 @@ export class AdminComponent implements OnInit {
     this._employeeServive.acceptRequestedLeave(emoployee, designation)
       .subscribe(resEmploeeData => this.leaveAcceptToken = resEmploeeData,
         resEmployeeError => this.errorMsg = resEmployeeError);
+    console.log('leave accept token :' + this.leaveAcceptToken);
+      this.router.navigate(['/admin/admin-page', this._loginService.getUserData()]);
   }
   rejectLeave(emoployee, designation) {
     this._employeeServive.rejectRequestedLeave(emoployee, designation)
       .subscribe(resEmploeeData => this.leaveRejectToken = resEmploeeData,
         resEmployeeError => this.errorMsg = resEmployeeError);
+      this.router.navigate(['/admin/admin-page', this._loginService.getUserData()]);
   }
-  routeToEmpSearch() {
-    this.router.navigate(['/admin/search']);
-  }
-  addEmp() {
-    this.router.navigate(['/admin/addEmployee']);
-  }
+  // routeToEmpSearch() {
+  //   this.router.navigate(['/admin/search']);
+  // }
+  // addEmp() {
+  //   this.router.navigate(['/admin/addEmployee']);
+  // }
   logout() {
     this._employeeServive.destroySession()
       .subscribe(resEmploeeData => this.sessionDestroyToken = resEmploeeData,

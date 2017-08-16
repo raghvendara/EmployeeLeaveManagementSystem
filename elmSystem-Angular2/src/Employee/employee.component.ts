@@ -7,7 +7,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.css']
 })
-export class EmployeeComponent implements OnInit{
+export class EmployeeComponent implements OnInit {
   title = 'Employee';
   public getEmpInfo;
   public name;
@@ -15,12 +15,12 @@ export class EmployeeComponent implements OnInit{
   public designation;
   public projectName;
   public myLeaveList= [];
-  public myLeavesInfo= [];
+  public leavesInfo= [];
   public success;
   public successForList;
   public errorForList;
   public errorMsg;
-  constructor(private _employeeServive: EmployeeService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private _employeeServive: EmployeeService, private route: ActivatedRoute, private router: Router,) {}
   ngOnInit() {
     this.getEmpInfo = this.route.snapshot.params['data'];
     this.route.params.subscribe((params: Params) => {
@@ -29,8 +29,6 @@ export class EmployeeComponent implements OnInit{
       this.designation = params['designation'];
       this.projectName = params['projectName'];
     });
-  }
-  getMyLeavesTable() {
     this._employeeServive.getEmpLeaveListService(this.emp_id)
       .subscribe(resEmploeeData => {
           if (resEmploeeData != null) {
@@ -44,12 +42,12 @@ export class EmployeeComponent implements OnInit{
         },
         // this.empLeaveList = resEmploeeData,
         resEmployeeError => this.errorMsg = resEmployeeError);
-  }
-  getMyLeavesInfo() {
+
     this._employeeServive.getEmployeeInfo(this.emp_id)
       .subscribe(resEmploeeData => {
+
           if (resEmploeeData != null) {
-            this.myLeavesInfo = resEmploeeData;
+            this.leavesInfo = resEmploeeData;
             this.success = true;
             this.errorForList = false;
           }else {
@@ -64,5 +62,9 @@ export class EmployeeComponent implements OnInit{
   editProfile() {
     console.log('in employee comp :' + this.emp_id);
     this.router.navigate(['employee/edit-profile', this.emp_id]);
+  }
+  applyLeave() {
+    console.log('in employee comp going to apply leave:' + this.emp_id);
+    this.router.navigate(['employee/apply-leave', this.emp_id]);
   }
 }

@@ -19,13 +19,9 @@
 .AddEmp{
   margin-top: 60px;
   width: auto;
-  float: right;
+  float: left;
   background-color: whitesmoke;
-  margin-right: 20%;
+ margin-left: 20px;
 }
 
-.logout{
-  margin-top: 20px;
-  float: right;
-  margin-right: 5%;
-}
+

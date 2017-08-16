@@ -6,17 +6,9 @@
 </head>
 <body style="background-color: whitesmoke">
 
-<h4 style="color: black;padding-top: 10px;margin-left: 5%">Welcome {{name}} ({{emp_id}}) ({{designation}}) ({{projectName}})</h4>
-<div class="button">
-  <button class="btn btn-primary" (click)="getMyLeavesTable()"> click to see the leave table </button>
-</div>
-<div class="button">
-  <button class="btn btn-primary" (click)="getMyLeavesInfo()"> click to see the leaves info</button>
-</div>
-<div class="button">
-  <button class="btn btn-primary" (click)="editProfile()"> click to edit profile</button>
-</div>
+<h4 style="color: black;padding-top: 10px;margin-left: 5%">Welcome <strong> {{name}} ({{emp_id}}) ({{designation}}) ({{projectName}}) </strong></h4>
 <div *ngIf="success" class="container">
+  <strong >Leaves Information</strong>
   <table class="table table-hover">
     <tr>
       <td><b>empID</b></td>
@@ -27,12 +19,12 @@
       <td><b>total_bal_leaves</b></td>
     </tr>
     <tr>
-      <td>{{myLeavesInfo.emp_id}}</td>
-      <td>{{myLeavesInfo.availed_leaves}}</td>
-      <td>{{myLeavesInfo.bal_in_sick}}</td>
-      <td>{{myLeavesInfo.bal_in_casual}}</td>
-      <td>{{myLeavesInfo.bal_in_privilege}}</td>
-      <td>{{myLeavesInfo.total_bal_leaves}}</td>
+      <td>{{leavesInfo.emp_id}}</td>
+      <td>{{leavesInfo.availed_leaves}}</td>
+      <td>{{leavesInfo.bal_in_sick}}</td>
+      <td>{{leavesInfo.bal_in_casual}}</td>
+      <td>{{leavesInfo.bal_in_privilege}}</td>
+      <td>{{leavesInfo.total_bal_leaves}}</td>
     </tr>
   </table>
 <hr>
@@ -40,6 +32,7 @@
 
 <div *ngIf="successForList" class="container">
   <!--*ngIf="empLeaveList.leaveID"-->
+  <strong >Leave Requests</strong>
   <table class="table table-hover">
     <tr>
       <td><b>leaveId</b></td>

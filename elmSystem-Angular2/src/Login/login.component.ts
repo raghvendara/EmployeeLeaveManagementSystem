@@ -38,11 +38,18 @@ export class LoginComponent {
              // this._loginService.isLoggedIn.subscribe();
             this.postData = data;
             this._loginService.setIsLogStatus(true);
+            this._loginService.setLoggesUser(data.fullName);
+            this._loginService.setUserDesignation(data.designation);
+            this._loginService.setUserData(data);
             this.router.navigate(['/admin/admin-page', data]);
-          }else if (data.designation === 'employee') {
+          }else if (data.flag === true && data.designation === 'employee') {
             console.log(data.designation);
-            this.flag = true;
             this._loginService.setIsLogStatus(true);
+            console.log('in employee log status :' + this._loginService.getIsLogStatus())
+
+            this._loginService.setLoggesUser(data.fullName);
+            this._loginService.setUserDesignation(data.designation);
+            this._loginService.setUserData(data);
             this.router.navigate(['/employee', data]);
           } else  {
             this.error = 'someting went wrong..!!';

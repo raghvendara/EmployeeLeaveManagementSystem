@@ -9,7 +9,8 @@ import {AddEmpComponent} from '../Admin/addEmp.component';
 import {EmployeeComponent} from '../Employee/employee.component';
 import {ForgotPasswordComponent} from '../Login/forgotPassword.component';
 import {ResetPasswordComponent} from '../Login/resetPassword.component';
-import {EditProfileComponent} from "../Employee/edit-profile.component";
+import {EditProfileComponent} from '../Employee/edit-profile.component';
+import {ApplyLeaveComponent} from '../Employee/apply-leave.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -23,8 +24,10 @@ const routes: Routes = [
   { path: 'employee', canActivate : [AuthGuardService], component: EmployeeComponent },
   { path: 'home/login/forgotPassword', component: ForgotPasswordComponent },
   { path: 'home/login/forgotPassword/resetPassword', component: ResetPasswordComponent },
-  { path: 'employee/edit-profile/:emp_id', canActivate : [AuthGuardService], component: EditProfileComponent }
-];
+  { path: 'employee/edit-profile/:emp_id', canActivate : [AuthGuardService], component: EditProfileComponent },
+  { path: 'employee/apply-leave/:emp_id', canActivate : [AuthGuardService], component: ApplyLeaveComponent },
+
+  ];
 @NgModule({
   imports: [
     RouterModule.forRoot(routes)

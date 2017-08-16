@@ -26,6 +26,7 @@
 
     </tr>
       <tr *ngFor='let emoployee of employees'>
+
         <td>{{emoployee.emp_id}}</td>
         <td>{{emoployee.fullName}}</td>
         <td>{{emoployee.leave_type}}</td>
@@ -33,18 +34,21 @@
         <td>{{emoployee.date_of_leave}}</td>
         <td>{{emoployee.noOfDays}}</td>
         <td>{{emoployee.reason}}</td>
-        <td><button class="btn btn-primary" type="button" (click)="acceptLeave(emoployee,designation)">accept</button>{{leaveAcceptToken}}</td>
-        <td><button class="btn btn-primary" type="button" (click)="rejectLeave(emoployee,designation)" >reject</button>{{leaveRejectToken}}</td>
+
+        <td><button class="btn btn-primary" type="button" (click)="acceptLeave(emoployee,designation)">accept</button></td>
+        <td><button class="btn btn-primary" type="button" (click)="rejectLeave(emoployee,designation)" >reject</button></td>
       </tr>
+
     </table>
 </div>
-
-<div class="EmpSearch">
-  <button type="button" class="btn btn-primary" (click)="routeToEmpSearch()" >click to search Employee</button>
+<div>
 </div>
+<!--<div class="EmpSearch">-->
+  <!--<button type="button" class="btn btn-primary" (click)="routeToEmpSearch()" >click to search Employee</button>-->
+<!--</div>-->
 
-<div *ngIf="designation==='HR'" class="AddEmp">
-  <button type="button" class="btn btn-primary" (click)="addEmp()" >Add an employee</button>
-</div>
+<!--<div *ngIf="designation==='HR'" class="AddEmp">-->
+  <!--<button type="button" class="btn btn-primary" (click)="addEmp()" >Add an employee</button>-->
+<!--</div>-->
 </body>
 </html>

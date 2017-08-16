@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import {LoginServiceComponent} from "../Login/loginService.component";
 
 
 @NgModule({
@@ -10,7 +11,7 @@ import { HttpModule } from '@angular/http';
   imports: [
     BrowserModule, FormsModule, HttpModule, ReactiveFormsModule
   ],
-  providers: [],
+  providers: [LoginServiceComponent],
   bootstrap: []
 })
 export class AdminModule { }

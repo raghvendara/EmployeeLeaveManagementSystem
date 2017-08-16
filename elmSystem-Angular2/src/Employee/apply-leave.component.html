@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="container center_div" >
+    <h3 style="margin-left: 37%;color: black;padding-top: 10px"> Apply Leave </h3>
+    <form [formGroup]= "applyLeaveForm" novalidate (ngSubmit)="applyLeave()">
+
+      <input type="text"  class="form-control" #emp_id disabled formControlName="emp_id" [(ngModel)]="employye_id"  autofocus>
+
+      <select class="form-control" formControlName="leave_type" id="leave_type">
+        <option selected disabled>Choose leave type</option>
+        <option value="casual">Casual</option>
+        <option value="sick">Sick</option>
+        <option value="previlege">Previlege</option>
+      </select>
+      <div class="alert alert-danger" *ngIf="applyLeaveForm.controls['leave_type'].hasError('required')">
+        please enter user name
+      </div>
+      <!--<input type="text"  class="form-control" #leave_type formControlName="leave_type" placeholder="select type of leave" required autofocus>-->
+
+      <input type="date" class="form-control"  #date_of_leave formControlName="date_of_leave" placeholder="choose date for leave" required autofocus>
+      <div class="alert alert-danger" *ngIf="applyLeaveForm.controls['date_of_leave'].hasError('required')">
+        please select date
+      </div>
+
+      <input type="number"  class="form-control"  #no_of_days formControlName="no_of_days" placeholder="enter numbber of days" required autofocus>
+      <div class="alert alert-danger" *ngIf="applyLeaveForm.controls['no_of_days'].hasError('required')">
+        please select number of days
+      </div>
+      <input type="text"  class="form-control"  #project formControlName="reason" placeholder="please enter the reason for leave" required autofocus>
+      <div class="alert alert-danger" *ngIf="applyLeaveForm.controls['reason'].hasError('required')">
+        please enter the reason
+      </div>
+      <!--<input type="date"  class="form-control"  #project formControlName="applied_date" placeholder="please enter the reason for leave" required autofocus>-->
+      <!--<div class="alert alert-danger" *ngIf="applyLeaveForm.controls['applied_date'].hasError('required')">-->
+        <!--please enter the date-->
+      <!--</div>-->
+
+      <button  type="submit" [disabled]="!applyLeaveForm.valid" class="btn btn-lg btn-primary btn-block">Submit</button>
+
+      <!--<p *ngIf="error" style="color: red;font-family:KacstOffice;font-style: italic">invalid user name or password !!!</p>-->
+
+      <p *ngIf="errorMsg" style="color: red;font-family:KacstOffice;font-style: italic">invalid form selection !!!</p>
+
+    </form>
+    <!--<p *ngIf="postData && postData.flag">{{postData.flag}}&#45;&#45;{{postData.emp_id}}&#45;&#45;{{postData.fullName}}&#45;&#45;{{postData.designation}}</p>-->
+    <!--<p *ngIf="postData && postData.flag" >-->
+    <!--&lt;!&ndash;<button type="submit" routerLink="/admin" routerLinkActive="active">admin</button>&ndash;&gt;-->
+    <!--</p>-->
+  </div>
+
+  <div style="margin-top: " class="alert alert-success" *ngIf=" applyLeaveToken === true">
+    <strong>Success!</strong> your leave request sent successfully ...
+    <strong>keep check your mail for status of your leave request</strong>
+  </div>
+
+</div>
+
+
+</body>
+</html>
