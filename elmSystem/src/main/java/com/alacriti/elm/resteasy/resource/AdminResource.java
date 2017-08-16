@@ -50,6 +50,9 @@ public class AdminResource {
 		public boolean acceptLeave(RequestedEmployeeInfo requestedEmployeeInfo,
 				@PathParam("designation") String designation,@Context HttpServletRequest request)
 		{
+			System.out.println("in resource : -----> mail---->"+requestedEmployeeInfo.getEmail()+"<-----");
+			System.out.println("in resource : -----> userName---->"+requestedEmployeeInfo.getFullName()+"<-----");
+
 			//boolean flag=false;
 			//ResponseToPost responseToPost=new ResponseToPost();
 			//responseToPost.setDesignation(designation);
@@ -72,8 +75,8 @@ public class AdminResource {
 			boolean checkSessionValidity=sessionUtility.checkForSession(request);
 
 			if(checkSessionValidity){
-			String emp_id=requestedEmployeeInfo.getEmp_id();
-			return deligateAdmin.deligateRejectLeave(emp_id, designation); 
+			//String emp_id=requestedEmployeeInfo.getEmp_id();
+			return deligateAdmin.deligateRejectLeave(requestedEmployeeInfo, designation); 
 			}
 			else return false;
 		}

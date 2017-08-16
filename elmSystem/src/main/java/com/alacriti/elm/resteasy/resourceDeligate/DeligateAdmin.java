@@ -3,7 +3,7 @@ package com.alacriti.elm.resteasy.resourceDeligate;
 import java.sql.Connection;
 import java.util.List;
 
-import com.alacriti.elm.bo.SampleBo;
+import com.alacriti.elm.bo.LoginBo;
 import com.alacriti.elm.resteasy.modelClasses.AddEmpInfo;
 import com.alacriti.elm.resteasy.modelClasses.EmployeeLeaveInfo;
 import com.alacriti.elm.resteasy.modelClasses.EmployeeLeaveList;
@@ -22,7 +22,7 @@ public class DeligateAdmin extends BaseDeligate{
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			SampleBo sampleBO = new SampleBo(connection);
+			LoginBo sampleBO = new LoginBo(connection);
 			emp_list = sampleBO.requestedEmployeeInfoBO(projectName,designation);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -39,11 +39,11 @@ public class DeligateAdmin extends BaseDeligate{
 //		ResponseToAccept responseToAccept=null;
 		boolean rollBack = false;
 		Connection connection = null;
-		SampleBo sampleBO;
+		LoginBo sampleBO;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			sampleBO = new SampleBo(connection);
+			sampleBO = new LoginBo(connection);
 			
 			return sampleBO.acceptLeaveBO(requestedEmployeeInfo,designation);
 
@@ -59,17 +59,17 @@ public class DeligateAdmin extends BaseDeligate{
 		
 	}
 
-	public boolean deligateRejectLeave(String emp_id, String designation) {
+	public boolean deligateRejectLeave(RequestedEmployeeInfo requestedEmployeeInfo, String designation) {
 		
 		boolean rollBack = false;
 		Connection connection = null;
-		SampleBo sampleBO;
+		LoginBo sampleBO;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			sampleBO = new SampleBo(connection);
+			sampleBO = new LoginBo(connection);
 			
-			return sampleBO.rejectLeaveBO(emp_id,designation);
+			return sampleBO.rejectLeaveBO(requestedEmployeeInfo,designation);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -87,11 +87,11 @@ public class DeligateAdmin extends BaseDeligate{
 		
 		boolean rollBack = false;
 		Connection connection = null;
-		SampleBo sampleBO;
+		LoginBo sampleBO;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			sampleBO = new SampleBo(connection);
+			sampleBO = new LoginBo(connection);
 			
 			emp_info=sampleBO.getSerchEpmInfoBO(emp_id);
 
@@ -109,11 +109,11 @@ public class DeligateAdmin extends BaseDeligate{
 		
 		boolean rollBack = false;
 		Connection connection = null;
-		SampleBo sampleBO;
+		LoginBo sampleBO;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			sampleBO = new SampleBo(connection);
+			sampleBO = new LoginBo(connection);
 			
 			return sampleBO.getEpmLeaveListBO(emp_id);
 
@@ -130,11 +130,11 @@ public class DeligateAdmin extends BaseDeligate{
 	public boolean deligateAddEmpInfo(AddEmpInfo addEmpInfo) {
 		boolean rollBack = false;
 		Connection connection = null;
-		SampleBo sampleBO;
+		LoginBo sampleBO;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			sampleBO = new SampleBo(connection);
+			sampleBO = new LoginBo(connection);
 			
 			return sampleBO.addEmpInfoBO(addEmpInfo);
 
@@ -150,11 +150,11 @@ public class DeligateAdmin extends BaseDeligate{
 	public EmployeeProfile deligateGetEmpProfile(String emp_id) {
 		boolean rollBack = false;
 		Connection connection = null;
-		SampleBo sampleBO;
+		LoginBo sampleBO;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			sampleBO = new SampleBo(connection);
+			sampleBO = new LoginBo(connection);
 			
 			return sampleBO.getEmpProfileBO(emp_id);
 
@@ -172,11 +172,11 @@ public class DeligateAdmin extends BaseDeligate{
 	public boolean deligateEditProfile(EmployeeProfile employeeProfile) {
 		boolean rollBack = false;
 		Connection connection = null;
-		SampleBo sampleBO;
+		LoginBo sampleBO;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			sampleBO = new SampleBo(connection);
+			sampleBO = new LoginBo(connection);
 			
 			return sampleBO.editProfileBO(employeeProfile);
 

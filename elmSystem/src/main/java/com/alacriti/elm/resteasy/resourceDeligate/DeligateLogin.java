@@ -2,7 +2,7 @@ package com.alacriti.elm.resteasy.resourceDeligate;
 
 import java.sql.Connection;
 
-import com.alacriti.elm.bo.SampleBo;
+import com.alacriti.elm.bo.LoginBo;
 import com.alacriti.elm.resteasy.modelClasses.ForgotPasswordInfo;
 import com.alacriti.elm.resteasy.modelClasses.NewPasswordInfo;
 import com.alacriti.elm.resteasy.modelClasses.ResponseToForgotPassword;
@@ -23,7 +23,7 @@ public class DeligateLogin extends BaseDeligate{
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			SampleBo sampleBO = new SampleBo(connection);
+			LoginBo sampleBO = new LoginBo(connection);
 			responseToPost = sampleBO.loginBo(userLoginInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -44,7 +44,7 @@ public class DeligateLogin extends BaseDeligate{
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			SampleBo sampleBO = new SampleBo(connection);
+			LoginBo sampleBO = new LoginBo(connection);
 			responseToForgotPassword = sampleBO.forgotPasswordBo(forgotPasswordInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -63,7 +63,7 @@ public class DeligateLogin extends BaseDeligate{
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			SampleBo sampleBO = new SampleBo(connection);
+			LoginBo sampleBO = new LoginBo(connection);
 			flag= sampleBO.resetPasswordBo(newPasswordInfo);
 		} catch (Exception e) {
 			e.printStackTrace();

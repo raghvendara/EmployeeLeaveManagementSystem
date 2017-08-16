@@ -28,7 +28,7 @@ public class AdminDao extends BaseDao{
 	public AdminDao(){
 		
 	}
-	
+	MailingService sendMail=new MailingService();
 	
 	public List<RequestedEmployeeInfo> getRequestedEmployeeInfoDao(
 			String projectName, String designation) throws DaoException {
@@ -69,7 +69,7 @@ public class AdminDao extends BaseDao{
 				Date date_of_leave=rs.getDate(5);
 				int noOfDays=rs.getInt(6);
 				String reason=rs.getString(7);
-				String email=rs.getString(8);
+				String email=rs.getString(10);
 				emp_list.add(new RequestedEmployeeInfo(emp_id,fullName,leave_id,leave_type,applied_date,date_of_leave,noOfDays,reason,email));
 			}	
 			
@@ -90,22 +90,30 @@ public class AdminDao extends BaseDao{
 		String emp_id=requestedEmployeeInfo.getEmp_id();
 		String leaveType=requestedEmployeeInfo.getLeave_type();
 		int noOfDays=requestedEmployeeInfo.getNoOfDays();
-		
 		String sqlCommand=null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		MakeRequiredQuery makeRequiredQuery=new MakeRequiredQuery();
+		
 
 		if(designation.equals("TL"))
 		{
 			sqlCommand=makeRequiredQuery.queryForTL();
-			return updateLeaveStatus(requestedEmployeeInfo,sqlCommand);
+			boolean notification=updateLeaveStatus(requestedEmployeeInfo,sqlCommand);
+			if(notification==true){
+				System.out.println("Mail----->"+requestedEmployeeInfo.getEmail()+"<-----------");
+			sendMail.send("dummytesting799@gmail.com","raghava@799",requestedEmployeeInfo.getEmail(),"Leave Notification","your leave has been successfully accepted by your:  "+ designation);
+			return true; 
+			}
 		}
 		if(designation.equals("PM"))
 		{
 			sqlCommand=makeRequiredQuery.queryForPM();
-			return updateLeaveStatus(requestedEmployeeInfo,sqlCommand);
-			
+			boolean notification=updateLeaveStatus(requestedEmployeeInfo,sqlCommand);
+			if(notification==true){
+			sendMail.send("dummytesting799@gmail.com","raghava@799",requestedEmployeeInfo.getEmail(),"Leave Notification","your leave has been successfully accepted by your:  "+ designation);
+			return true; 
+			}	
 		}
 		if(designation.equals("HR"))
 		{
@@ -133,7 +141,10 @@ public class AdminDao extends BaseDao{
 				stmt.setString(6, emp_id);
 	
 				int flagg=stmt.executeUpdate();
-				if(flagg==1){
+				System.out.println("Going to send mail here.......!!!  in accept  in HR --->: " + flagg + "<----  ********");
+
+				if(flagg>=1){
+					sendMail.send("dummytesting799@gmail.com","raghava@799",requestedEmployeeInfo.getEmail(),"Leave Notification","your leave has been successfully accepted by your:  "+ designation);
 				return true;
 				}	
 				else return false;
@@ -165,9 +176,13 @@ public class AdminDao extends BaseDao{
 			Connection connection=getConnection();
 			stmt=connection.prepareStatement(sqlCommand);
 			stmt.setString(1, emp_id);
-			
-			return stmt.execute();
+			int noOfrowsAffected=stmt.executeUpdate();
+			System.out.println("Going to send mail here.......!!!  in accept TL of PM-----> : " + noOfrowsAffected + " <---- ********");
 
+			if(noOfrowsAffected==1){
+			return true;
+			}
+			else return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DaoException("SQLException in selectMessage():", e);
@@ -177,7 +192,7 @@ public class AdminDao extends BaseDao{
 
 	}
 	/// to reject
-	public boolean rejectLeaveDao(String emp_id, String designation) throws DaoException{
+	public boolean rejectLeaveDao(RequestedEmployeeInfo requestedEmployeeInfo, String designation) throws DaoException{
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -203,10 +218,15 @@ public class AdminDao extends BaseDao{
 			
 			Connection connection=getConnection();
 			stmt=connection.prepareStatement(sqlCommand);
-			stmt.setString(1, emp_id);
+			stmt.setString(1, requestedEmployeeInfo.getEmp_id());
 
 			int flagg=stmt.executeUpdate();
+			System.out.println("Going to send mail here in reject.......!!!  : " + flagg + "  ********");
+
 			if(flagg==1){
+
+			sendMail.send("dummytesting799@gmail.com","raghava@799",requestedEmployeeInfo.getEmail(),"Leave Notification","your leave has been rejected by your:  "+ designation);
+
 			return true;
 			}	
 			else return false;

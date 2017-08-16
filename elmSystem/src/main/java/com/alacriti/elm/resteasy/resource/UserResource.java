@@ -12,11 +12,13 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.alacriti.elm.resteasy.modelClasses.ForgotPasswordInfo;
+import com.alacriti.elm.resteasy.modelClasses.LeaveApplicationDetails;
 import com.alacriti.elm.resteasy.modelClasses.NewPasswordInfo;
 import com.alacriti.elm.resteasy.modelClasses.ResponseToForgotPassword;
 import com.alacriti.elm.resteasy.modelClasses.ResponseToLoginPost;
 import com.alacriti.elm.resteasy.modelClasses.UserLoginInfo;
 import com.alacriti.elm.resteasy.resourceDeligate.DeligateLogin;
+import com.alacriti.elm.resteasy.resourceDeligate.UserDeligate;
 
 @XmlRootElement
 @Path("/login")
@@ -86,6 +88,16 @@ public class UserResource {
 	public boolean resetPasswordResourse(NewPasswordInfo newPasswordInfo){
 		DeligateLogin deligateLogin=new DeligateLogin();
 		return deligateLogin.deligateResetPassword(newPasswordInfo);
+		
+		 
+	}
+	@POST
+	@Path("/apply-leave")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public boolean applyLeaveResourse(LeaveApplicationDetails leaveApplicationDetails){
+		UserDeligate userDeligate=new UserDeligate();
+		return userDeligate.deligateLeaveApplication(leaveApplicationDetails);
 		
 		 
 	}
