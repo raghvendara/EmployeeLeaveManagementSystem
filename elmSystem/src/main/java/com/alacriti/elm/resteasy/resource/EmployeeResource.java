@@ -11,12 +11,15 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.log4j.Logger;
+
 import com.alacriti.elm.resteasy.modelClasses.EmployeeProfile;
 import com.alacriti.elm.resteasy.resourceDeligate.DeligateAdmin;
 
 @XmlRootElement
 @Path("/employee")
 public class EmployeeResource {
+	public static final Logger log= Logger.getLogger(EmployeeResource.class);
 	
 	SessionUtility sessionUtility=new SessionUtility();
 	DeligateAdmin deligateAdmin=new DeligateAdmin();
@@ -26,14 +29,9 @@ public class EmployeeResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public EmployeeProfile getEmpResorce(@PathParam("emp_id") String emp_id,@Context HttpServletRequest request){
 		
-
-		//boolean checkSessionValidity=sessionUtility.checkForSession(request);
-		
-		//if(checkSessionValidity){
-
-			return deligateAdmin.deligateGetEmpProfile(emp_id);
-		//}
-		//else return null;
+		log.debug("in getEmpResorce");
+	
+		return deligateAdmin.deligateGetEmpProfile(emp_id);
 		
 	}
 	
@@ -42,25 +40,11 @@ public class EmployeeResource {
 	@Path("/edit-profile")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public boolean getEmpResorce(EmployeeProfile employeeProfile,@Context HttpServletRequest request){
+	public boolean editProfileResorce(EmployeeProfile employeeProfile,@Context HttpServletRequest request){
 		
-
-		boolean checkSessionValidity=sessionUtility.checkForSession(request);
+		log.debug("in editProfileResorce");
 		
-		if(checkSessionValidity){
-
-		System.out.println("returning edit result=======>"+employeeProfile.getEmp_id()+":;;;;"+employeeProfile.getDesignation());
-
-		
-			boolean fl= deligateAdmin.deligateEditProfile(employeeProfile);
-			
-			System.out.println("returning edit result=======>"+fl);
-			
-			
-			return fl;
-	}
-		else return false;
-		
+		return deligateAdmin.deligateEditProfile(employeeProfile);				
 	}
 
 }

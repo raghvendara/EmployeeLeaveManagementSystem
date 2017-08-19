@@ -3,9 +3,14 @@ package com.alacriti.elm.resteasy.resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 public class SessionUtility {
+	public static final Logger log= Logger.getLogger(SessionUtility.class);
+
 	public boolean checkForSession(HttpServletRequest request)
 	{
+		log.debug("in checkForSession");
 		HttpSession session= request.getSession(false);
 		System.out.println("printing the status of session");
 		System.out.println(session);
@@ -16,14 +21,10 @@ public class SessionUtility {
 	}
 
 	public boolean destroySession(HttpServletRequest request) {
-		HttpSession session= request.getSession(false);
-		System.out.println("in session destroy=====>>>" + session);
-		if(session!=null)
-		{
+		log.debug("in destroySession");
+
+		HttpSession session= request.getSession();
 		session.invalidate();
-		return true;
-		}
-		
-		else return false;
+		return checkForSession(request);
 	}
 }

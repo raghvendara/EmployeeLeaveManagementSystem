@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.alacriti.elm.resteasy.modelClasses.AddEmpInfo;
 import com.alacriti.elm.resteasy.modelClasses.EmployeeLeaveInfo;
 import com.alacriti.elm.resteasy.modelClasses.EmployeeLeaveList;
@@ -18,8 +20,6 @@ import com.alacriti.elm.resteasy.modelClasses.NewPasswordInfo;
 import com.alacriti.elm.resteasy.modelClasses.RequestedEmployeeInfo;
 import com.alacriti.elm.resteasy.modelClasses.ResponseToForgotPassword;
 
-
-
 public class AdminDao extends BaseDao{
 	
 	public AdminDao(Connection conn) {
@@ -28,10 +28,13 @@ public class AdminDao extends BaseDao{
 	public AdminDao(){
 		
 	}
+	public static final Logger log= Logger.getLogger(AdminDao.class);
+
 	MailingService sendMail=new MailingService();
 	
 	public List<RequestedEmployeeInfo> getRequestedEmployeeInfoDao(
 			String projectName, String designation) throws DaoException {
+		log.debug("in getRequestedEmployeeInfoDao");
 		
 		List<RequestedEmployeeInfo> emp_list=new ArrayList<RequestedEmployeeInfo>();
 
@@ -42,7 +45,7 @@ public class AdminDao extends BaseDao{
 		if(projectName.equals("null"))
 			sqlCommand="select r.emp_id,r.leave_id,r.leave_type,r.applied_date,r.date_of_leave,r.no_of_days,r.reason,i.emp_fName,i.emp_lName,i.email from raghava_empleaveportal_leave_request_info as r join raghava_EmpLeavePortal_EmpInfo as i on r.emp_id=i.emp_id where 'approved' in (r.team_lead_status) and 'approved' in (r.proj_man_status) and 'na' in (r.hr_status)";
 		if(designation.equals("PM"))
-			sqlCommand="select r.emp_id,r.leave_id,r.leave_type,r.applied_date,r.date_of_leave,r.no_of_days,r.reason,i.emp_fName,i.emp_lName,i.email from raghava_empleaveportal_leave_request_info as r join raghava_EmpLeavePortal_EmpInfo as i on r.emp_id=i.emp_id where 'approved' in (r.team_lead_status) and i.project_name=?";
+			sqlCommand="select r.emp_id,r.leave_id,r.leave_type,r.applied_date,r.date_of_leave,r.no_of_days,r.reason,i.emp_fName,i.emp_lName,i.email from raghava_empleaveportal_leave_request_info as r join raghava_EmpLeavePortal_EmpInfo as i on r.emp_id=i.emp_id where 'approved' in (r.team_lead_status) and 'na' in (r.proj_man_status) and i.project_name=?";
 		if(designation.equals("TL"))
 			sqlCommand="select r.emp_id,r.leave_id,r.leave_type,r.applied_date,r.date_of_leave,r.no_of_days,r.reason,i.emp_fName,i.emp_lName,i.email from raghava_empleaveportal_leave_request_info as r join raghava_EmpLeavePortal_EmpInfo as i on r.emp_id=i.emp_id where 'na' in (r.team_lead_status) and i.project_name=?";
 
@@ -74,7 +77,7 @@ public class AdminDao extends BaseDao{
 			}	
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("Exception occured ",e);
 			throw new DaoException("SQLException in selectMessage():", e);
 		} finally {
 			close(stmt, rs);
@@ -86,7 +89,8 @@ public class AdminDao extends BaseDao{
 	
 	public boolean acceptLeaveDao(
 			RequestedEmployeeInfo requestedEmployeeInfo,String designation) throws DaoException{
-		
+		log.debug("in acceptLeaveDao");
+
 		String emp_id=requestedEmployeeInfo.getEmp_id();
 		String leaveType=requestedEmployeeInfo.getLeave_type();
 		int noOfDays=requestedEmployeeInfo.getNoOfDays();
@@ -118,16 +122,7 @@ public class AdminDao extends BaseDao{
 		if(designation.equals("HR"))
 		{
 				sqlCommand=makeRequiredQuery.queryForHR(leaveType);
-				
-			
-			
-	//		if(leaveType.equals("sick"))
-	//			sqlCommand="select availed_leaves,total_bal_leaves,bal_in_sick from  raghava_empleaveportal_leaves_info where emp_id=?";
-	//		if(leaveType.equals("casual"))
-	//			sqlCommand="select availed_leaves,total_bal_leaves,bal_in_casual from  raghava_empleaveportal_leaves_info where emp_id=?";
-	//		if(leaveType.equals("privilege"))
-	//			sqlCommand="select availed_leaves,total_bal_leaves,bal_in_privilege from  raghava_empleaveportal_leaves_info where emp_id=?";
-			
+		
 			try {
 				
 				Connection connection=getConnection();
@@ -147,12 +142,9 @@ public class AdminDao extends BaseDao{
 					sendMail.send("dummytesting799@gmail.com","raghava@799",requestedEmployeeInfo.getEmail(),"Leave Notification","your leave has been successfully accepted by your:  "+ designation);
 				return true;
 				}	
-				else return false;
-				//return stmt.execute();
-				
-					
+				else return false;					
 			} catch (SQLException e) {
-				e.printStackTrace();
+				log.error("Exception occured ",e);
 				throw new DaoException("SQLException in selectMessage():", e);
 			} finally {
 				close(stmt, rs);
@@ -166,6 +158,7 @@ public class AdminDao extends BaseDao{
 	private boolean updateLeaveStatus(
 			RequestedEmployeeInfo requestedEmployeeInfo,String sqlCommand) throws DaoException  {
 
+		log.debug("in updateLeaveStatus");
 
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -184,16 +177,16 @@ public class AdminDao extends BaseDao{
 			}
 			else return false;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("Exception occured ",e);
 			throw new DaoException("SQLException in selectMessage():", e);
 		} finally {
 			close(stmt, rs);
 		}
 
 	}
-	/// to reject
 	public boolean rejectLeaveDao(RequestedEmployeeInfo requestedEmployeeInfo, String designation) throws DaoException{
-		
+		log.debug("in rejectLeaveDao");
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String sqlCommand = null;
@@ -230,10 +223,9 @@ public class AdminDao extends BaseDao{
 			return true;
 			}	
 			else return false;
-			//return stmt.execute();	
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("Exception occured ",e);
 			throw new DaoException("SQLException in selectMessage():", e);
 		} finally {
 			close(stmt, rs);
@@ -241,6 +233,7 @@ public class AdminDao extends BaseDao{
 		
 	}
 	public EmployeeLeaveInfo getSerchEpmInfoDao(String emp_id) throws DaoException {
+		log.debug("in getSerchEpmInfoDao");
 
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -259,7 +252,7 @@ public class AdminDao extends BaseDao{
 			else
 				return null;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("Exception occured ",e);
 			throw new DaoException("SQLException in selectMessage():", e);
 		} finally {
 			close(stmt, rs);
@@ -267,6 +260,8 @@ public class AdminDao extends BaseDao{
 		
 	}
 	public List<EmployeeLeaveList> getSerchEpmLeaveListDao(String emp_id) throws DaoException{
+		log.debug("in getSerchEpmLeaveListDao");
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String sqlCommand = null;
@@ -284,7 +279,7 @@ public class AdminDao extends BaseDao{
 			}
 			return employeeLeaveList;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("Exception occured ",e);
 			throw new DaoException("SQLException in selectMessage():", e);
 		} finally {
 			close(stmt, rs);
@@ -292,6 +287,8 @@ public class AdminDao extends BaseDao{
 		
 	}
 	public boolean addEmpInfoDao(AddEmpInfo addEmpInfo) throws DaoException{
+		log.debug("in addEmpInfoDao");
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String sqlCommand = null;
@@ -316,7 +313,7 @@ public class AdminDao extends BaseDao{
 			else return false;
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("Exception occured ",e);
 			throw new DaoException("SQLException in selectMessage():", e);
 		} finally {
 			close(stmt, rs);
@@ -324,6 +321,8 @@ public class AdminDao extends BaseDao{
 	}
 	private boolean insertUnamePwd(String userName, String password,
 			String empId, Connection connection) throws DaoException{
+		log.debug("in insertUnamePwd");
+
 		PreparedStatement stmt = null;
 
 		String sqlCommand = "insert into raghava_EmpLeavePortal_LoginCredentials values(?,?,?);";
@@ -339,13 +338,15 @@ public class AdminDao extends BaseDao{
 			else
 				return false;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("Exception occured ",e);
 			throw new DaoException("SQLException in selectMessage():", e);
 		}finally {
 			close(stmt);
 		}
 	}
 	private boolean updateInLeavesInfo(String empId, Connection connection) throws DaoException {
+		log.debug("in updateInLeavesInfo");
+
 		PreparedStatement stmt = null;
 
 		String sqlCommand = "insert into raghava_empleaveportal_leaves_info values(?,0,11,5,5,21);";
@@ -358,7 +359,7 @@ public class AdminDao extends BaseDao{
 			else
 				return false;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("Exception occured ",e);
 			throw new DaoException("SQLException in selectMessage():", e);
 		}finally {
 			close(stmt);
@@ -366,6 +367,8 @@ public class AdminDao extends BaseDao{
 	}
 	public ResponseToForgotPassword forgotPasswordDao(
 			ForgotPasswordInfo forgotPasswordInfo) throws DaoException {
+		log.debug("in forgotPasswordDao");
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String sqlCommand = null;
@@ -390,7 +393,7 @@ public class AdminDao extends BaseDao{
 			else
 				return null;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("Exception occured ",e);
 			throw new DaoException("SQLException in selectMessage():", e);
 		} finally {
 			close(stmt, rs);
@@ -398,10 +401,11 @@ public class AdminDao extends BaseDao{
 		
 	}
 	public boolean resetPasswordDao(NewPasswordInfo newPasswordInfo) throws DaoException{
+		log.debug("in resetPasswordDao");
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String sqlCommand = null;
-		//MakeRequiredQuery makeRequiredQuery=new MakeRequiredQuery();
 		try {
 			sqlCommand="update raghava_EmpLeavePortal_LoginCredentials set password=? where emp_id=?;";
 			Connection connection=getConnection();
@@ -420,13 +424,15 @@ public class AdminDao extends BaseDao{
 			else return false;
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("Exception occured ",e);
 			throw new DaoException("SQLException in selectMessage():", e);
 		} finally {
 			close(stmt, rs);
 		}		
 	}
 	public EmployeeProfile getEmpProfileDao(String emp_id) throws DaoException {
+		log.debug("in getEmpProfileDao");
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String sqlCommand = null;
@@ -442,7 +448,7 @@ public class AdminDao extends BaseDao{
 			else
 				return null;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("Exception occured ",e);
 			throw new DaoException("SQLException in selectMessage():", e);
 		} finally {
 			close(stmt, rs);
@@ -450,6 +456,8 @@ public class AdminDao extends BaseDao{
 		
 	}
 	public boolean editProfileDao(EmployeeProfile employeeProfile) throws DaoException{
+		log.debug("in editProfileDao");
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String sqlCommand = null;
@@ -472,7 +480,7 @@ public class AdminDao extends BaseDao{
 			else return false;
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("Exception occured ",e);
 			throw new DaoException("SQLException in selectMessage():", e);
 		} finally {
 			close(stmt, rs);

@@ -13,6 +13,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.log4j.Logger;
+
 import com.alacriti.elm.resteasy.modelClasses.AddEmpInfo;
 import com.alacriti.elm.resteasy.modelClasses.EmployeeLeaveInfo;
 import com.alacriti.elm.resteasy.modelClasses.EmployeeLeaveList;
@@ -22,6 +24,8 @@ import com.alacriti.elm.resteasy.resourceDeligate.DeligateAdmin;
 @XmlRootElement
 @Path("/admin")
 public class AdminResource {
+	public static final Logger log= Logger.getLogger(AdminResource.class);
+
 	DeligateAdmin deligateAdmin=new DeligateAdmin();
 	SessionUtility sessionUtility=new SessionUtility();
 	
@@ -31,16 +35,9 @@ public class AdminResource {
 		public List<RequestedEmployeeInfo> getRequestedEmployeesList(@PathParam("projectName") String projectName,
 				@PathParam("designation") String designation,@Context HttpServletRequest request)
 		{
-			
-			boolean checkSessionValidity=sessionUtility.checkForSession(request);
+			log.debug("in getRequestedEmployeesList");
 
-			if(checkSessionValidity){
-			List<RequestedEmployeeInfo> emp_list=null;
-			emp_list=deligateAdmin.deligateRequestedEmployeeInfo(projectName,designation);
-			return emp_list;
-			}
-			else
-				return null;
+			return deligateAdmin.deligateRequestedEmployeeInfo(projectName,designation);
 		}
 
 		@POST
@@ -50,20 +47,10 @@ public class AdminResource {
 		public boolean acceptLeave(RequestedEmployeeInfo requestedEmployeeInfo,
 				@PathParam("designation") String designation,@Context HttpServletRequest request)
 		{
-			System.out.println("in resource : -----> mail---->"+requestedEmployeeInfo.getEmail()+"<-----");
-			System.out.println("in resource : -----> userName---->"+requestedEmployeeInfo.getFullName()+"<-----");
+			log.debug("in acceptLeave");
 
-			//boolean flag=false;
-			//ResponseToPost responseToPost=new ResponseToPost();
-			//responseToPost.setDesignation(designation);
-			//ResponseToAccept responseToAccept=null;
-			boolean checkSessionValidity=sessionUtility.checkForSession(request);
-
-			if(checkSessionValidity){
 			return deligateAdmin.deligateAcceptLeave(requestedEmployeeInfo, designation);
-			}
-			else return false;
-			 
+
 		}
 		@POST
 		@Path("/reject/{designation}")
@@ -72,13 +59,9 @@ public class AdminResource {
 		public boolean rejectLeave(RequestedEmployeeInfo requestedEmployeeInfo,
 				@PathParam("designation") String designation,@Context HttpServletRequest request)
 		{
-			boolean checkSessionValidity=sessionUtility.checkForSession(request);
+			log.debug("in rejectLeave");
 
-			if(checkSessionValidity){
-			//String emp_id=requestedEmployeeInfo.getEmp_id();
 			return deligateAdmin.deligateRejectLeave(requestedEmployeeInfo, designation); 
-			}
-			else return false;
 		}
 		
 		@GET
@@ -88,12 +71,9 @@ public class AdminResource {
 		public EmployeeLeaveInfo getRequestedEmployeeInfoforSearch(@PathParam("empId") String emp_id,
 				@Context HttpServletRequest request)
 		{
-			boolean checkSessionValidity=sessionUtility.checkForSession(request);
+			log.debug("in getRequestedEmployeeInfoforSearch");
 
-			if(checkSessionValidity){
 			return deligateAdmin.deligateRequestedEmployeeInfoforSearch(emp_id);
-			}
-			else return null;
 		}
 		@GET
 		@Path("search/leavelist/{emp_id}")
@@ -102,12 +82,9 @@ public class AdminResource {
 		public List<EmployeeLeaveList> getRequestedEmployeeLeaveList(@PathParam("emp_id") String emp_id,
 				@Context HttpServletRequest request)
 		{
-			boolean checkSessionValidity=sessionUtility.checkForSession(request);
+			log.debug("in getRequestedEmployeeLeaveList");
 
-			if(checkSessionValidity){
 			return deligateAdmin.deligateRequestedEmployeeLeaveList(emp_id);
-			}
-			else return null;
 		}
 		@POST
 		@Path("/addEmployee")
@@ -116,11 +93,8 @@ public class AdminResource {
 		public boolean addEmpResource(AddEmpInfo addEmpInfo,
 				@Context HttpServletRequest request)
 		{	
-			boolean checkSessionValidity=sessionUtility.checkForSession(request);
+			log.debug("in addEmpResource");
 
-			if(checkSessionValidity){
 			return deligateAdmin.deligateAddEmpInfo(addEmpInfo); 
-			}
-			else return false;
 		}
 	}	

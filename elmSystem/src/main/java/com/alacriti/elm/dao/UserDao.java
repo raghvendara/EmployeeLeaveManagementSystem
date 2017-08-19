@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 
+import org.apache.log4j.Logger;
+
 import com.alacriti.elm.resteasy.modelClasses.LeaveApplicationDetails;
 
 public class UserDao extends BaseDao {
@@ -15,10 +17,13 @@ public class UserDao extends BaseDao {
 	public UserDao(Connection conn) {
 		super(conn);
 	}
+	public static final Logger log= Logger.getLogger(UserDao.class);
+
 
 	public boolean LeaveApplicationDao(
 			LeaveApplicationDetails leaveApplicationDetails) throws DaoException{
-		//
+		log.debug("in LeaveApplicationDao");
+		
 		String sqlCommand=null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -48,7 +53,7 @@ public class UserDao extends BaseDao {
 				else return false;	
 					
 			} catch (SQLException e) {
-				e.printStackTrace();
+				log.error("Exception occured ",e);
 				throw new DaoException("SQLException in selectMessage():", e);
 			} finally {
 				close(stmt, rs);

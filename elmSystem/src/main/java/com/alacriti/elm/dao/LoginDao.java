@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+
 import com.alacriti.elm.resteasy.modelClasses.ResponseToLoginPost;
 import com.alacriti.elm.resteasy.modelClasses.UserLoginInfo;
 
@@ -16,8 +18,11 @@ public class LoginDao extends BaseDao  {
 		public LoginDao(Connection conn) {
 			super(conn);
 		}
-		
+		public static final Logger log= Logger.getLogger(LoginDao.class);
+
 		public ResponseToLoginPost loginDao(UserLoginInfo userLoginInfo) throws DaoException {
+			
+			log.debug("in loginDao");
 			PreparedStatement stmt = null;
 			ResultSet rs = null;
 			Connection connection = null;
@@ -52,7 +57,7 @@ public class LoginDao extends BaseDao  {
 				}	
 					
 			} catch (SQLException e) {
-				e.printStackTrace();
+				log.error("Exception occured ",e);
 				throw new DaoException("SQLException in selectMessage():", e);
 
 			} finally {

@@ -1,11 +1,17 @@
 package com.alacriti.elm.dao;
 import java.util.Properties;    
+
 import javax.mail.*;    
 import javax.mail.internet.*;    
+
+import org.apache.log4j.Logger;
+
 public class MailingService{  
+	public static final Logger log= Logger.getLogger(MailingService.class);
+
     public  void send(final String from,final String password,String to,String sub,String msg){  
-          //Get properties object    
-          Properties props = new Properties();    
+    	  log.debug("in mail sending method");
+    	  Properties props = new Properties();    
           props.put("mail.smtp.host", "smtp.gmail.com");    
           props.put("mail.smtp.socketFactory.port", "465");    
           props.put("mail.smtp.socketFactory.class",    
@@ -28,7 +34,9 @@ public class MailingService{
            //send message  
            Transport.send(message);    
            System.out.println("***************** message sent successfully ....!***********************");    
-          } catch (MessagingException e) {throw new RuntimeException(e);}    
+          } catch (MessagingException e) {
+  			log.error("Exception occured ",e);
+        	  throw new RuntimeException(e);}    
              
     }  
 }  

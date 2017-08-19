@@ -11,6 +11,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.log4j.Logger;
+
 import com.alacriti.elm.resteasy.modelClasses.ForgotPasswordInfo;
 import com.alacriti.elm.resteasy.modelClasses.LeaveApplicationDetails;
 import com.alacriti.elm.resteasy.modelClasses.NewPasswordInfo;
@@ -23,11 +25,14 @@ import com.alacriti.elm.resteasy.resourceDeligate.UserDeligate;
 @XmlRootElement
 @Path("/login")
 public class UserResource {
+	public static final Logger log= Logger.getLogger(UserResource.class);
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResponseToLoginPost loginValidation(UserLoginInfo userLoginInfo,@Context HttpServletRequest request){
+	public ResponseToLoginPost loginValidation(UserLoginInfo userLoginInfo
+			,@Context HttpServletRequest request){
+		log.debug("in loginValidation");
 		DeligateLogin deligateLogin=new DeligateLogin();
 		ResponseToLoginPost responseToPost= deligateLogin.deligateLoginValidate(userLoginInfo);
 		if(responseToPost.isFlag())
@@ -48,9 +53,8 @@ public class UserResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public boolean checkSessoin(@Context HttpServletRequest request)
 	{
+		log.debug("in checkSessoin");
 		SessionUtility sessionUtility=new SessionUtility();
-//		HttpSession session= request.getSession(false);
-//		System.out.println("session in checkSession :"+session.getId());
 		return sessionUtility.checkForSession(request);
 	}
 	@GET
@@ -58,17 +62,11 @@ public class UserResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public boolean destroySessoin(@Context HttpServletRequest request)
 	{
-//		SessionUtility sessionUtility=new SessionUtility();
-		request.getSession().invalidate();
-		System.out.println("in destroy session resource : ============>>>>>"+request.getSession(false));
-		if(request.getSession(false)!=null)
-		{
-			return true;
-		}
-		else
-			return false;
-//		System.out.println("session in checkSession :"+session.getId());
-//		return sessionUtility.destroySession(request);
+		log.debug("in destroySessoin");
+
+		SessionUtility sessionUtility=new SessionUtility();
+		return sessionUtility.destroySession(request);
+
 	}
 	
 	@POST
@@ -76,6 +74,8 @@ public class UserResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ResponseToForgotPassword forgotPasswordResourse(ForgotPasswordInfo forgotPasswordInfo){
+		
+		log.debug("in forgotPasswordResourse");
 		DeligateLogin deligateLogin=new DeligateLogin();
 		return deligateLogin.deligateforgotPassword(forgotPasswordInfo);
 		
@@ -86,6 +86,8 @@ public class UserResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public boolean resetPasswordResourse(NewPasswordInfo newPasswordInfo){
+		log.debug("in resetPasswordResourse");
+
 		DeligateLogin deligateLogin=new DeligateLogin();
 		return deligateLogin.deligateResetPassword(newPasswordInfo);
 		
@@ -96,6 +98,8 @@ public class UserResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public boolean applyLeaveResourse(LeaveApplicationDetails leaveApplicationDetails){
+		log.debug("in applyLeaveResourse");
+
 		UserDeligate userDeligate=new UserDeligate();
 		return userDeligate.deligateLeaveApplication(leaveApplicationDetails);
 		
