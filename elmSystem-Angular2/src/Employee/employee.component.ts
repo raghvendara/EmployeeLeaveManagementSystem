@@ -34,8 +34,10 @@ export class EmployeeComponent implements OnInit {
           if (resEmploeeData != null) {
             this.myLeaveList = resEmploeeData;
             this.successForList = true;
+            console.log('got emp leave list' + this.successForList);
             this.errorForList = false;
           }else {
+            console.log(' emp leave list not returned');
             this.errorForList = true;
             this.successForList = false;
           }

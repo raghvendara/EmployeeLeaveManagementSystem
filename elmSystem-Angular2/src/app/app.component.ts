@@ -42,14 +42,19 @@ export class AppComponent implements OnInit{
     );
   }
   onLogOutClick() {
-    this.isLoggedIn = false;
-    this.loggedUser = null;
-    this.loggedUserDesignation = null;
-    this._employeeServive.destroySession()
-      .subscribe(resEmploeeData => this.sessionDestroyToken = resEmploeeData,
-        resEmployeeError => this.errorMsg = resEmployeeError);
-    console.log('destroyed session: =====>' + this.sessionDestroyToken);
-    this.route.navigate(['/home']);
+    if ( confirm('are you sure to log out ...!')) {
+      this.isLoggedIn = false;
+      this.loggedUser = null;
+      this.loggedUserDesignation = null;
+      this._employeeServive.destroySession()
+        .subscribe(resEmploeeData => {
+            this.sessionDestroyToken = resEmploeeData,
+              console.log('destroyed session: =====>' + resEmploeeData);
+          },
+          resEmployeeError => this.errorMsg = resEmployeeError,
+        );
+      this.route.navigate(['/home']);
+    }
   }
     routeToLogin() {
     this.flagtonav = false;

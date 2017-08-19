@@ -29,7 +29,7 @@ export class EmployeeService {
       .catch(this._errorHandler);
   }
   getEmployees() {
-    return this._http.get(this._url, {withCredentials: true })
+    return this._http.get(this._url)
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
 
@@ -48,7 +48,7 @@ export class EmployeeService {
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
-    return this._http.get(_url2, {withCredentials: true })
+    return this._http.get(_url2)
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }
@@ -57,7 +57,7 @@ export class EmployeeService {
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
-    return this._http.post(_url3, emoployee, {withCredentials: true })
+    return this._http.post(_url3, emoployee)
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }
@@ -66,7 +66,7 @@ export class EmployeeService {
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
-    return this._http.post(_url4, emoployee, {withCredentials: true })
+    return this._http.post(_url4, emoployee)
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }
@@ -75,16 +75,17 @@ export class EmployeeService {
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
-    return this._http.get(_url, {withCredentials: true })
+    return this._http.get(_url)
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }
   getEmpLeaveListService(emp_id) {
+    console.log('going for rest to get the list');
     const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/admin/search/leavelist/' + emp_id;
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
-    return this._http.get(_url, {withCredentials: true })
+    return this._http.get(_url)
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }
@@ -93,7 +94,7 @@ export class EmployeeService {
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
-    return this._http.post(_url, empForm, {withCredentials: true } )
+    return this._http.post(_url, empForm )
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }
@@ -121,11 +122,12 @@ export class EmployeeService {
       .catch(this._errorHandler);
   }
   destroySession() {
+    console.log('in destroy session going to rest....')
     const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/login/destroySession';
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
-    return this._http.get(_url )
+    return this._http.get(_url, { headers: headers, withCredentials: true } )
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }
@@ -135,7 +137,7 @@ export class EmployeeService {
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
-    return this._http.get(_url )
+    return this._http.get(_url)
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }

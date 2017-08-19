@@ -33,6 +33,13 @@ export class AdminComponent implements OnInit {
       this._employeeServive.getRequestedEmployees(this.projectName, this.designation)
         .subscribe(resEmploeeData => this.employees = resEmploeeData,
           resEmployeeError => this.errorMsg = resEmployeeError);
+      console.log('in admin component while refreshing : ' + this.designation);
+      console.log('login status :' + this._loginService.getIsLogStatus());
+    console.log('designation :' + this._loginService.getUserDesignation());
+    console.log('user data:' + this._loginService.getUserData());
+    console.log('user name :' + this._loginService.getLoggedUserName());
+
+
   }
   acceptLeave(emoployee, designation) {
     this._employeeServive.acceptRequestedLeave(emoployee, designation)
