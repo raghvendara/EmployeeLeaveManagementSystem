@@ -210,6 +210,36 @@ public class LoginBo extends BaseBO {
 		}	
 		
 	}
+
+	public boolean empIDForValidationBO(String empID) throws BoException {
+		log.debug("in empIDForValidationBO");
+
+		try {
+			adminDao = new AdminDao(getConnection());
+			return adminDao.validationForEmpIDDao(empID);
+		} catch (DaoException e) {
+			log.error("Exception occured ",e);
+			throw new BoException("DAOException Occured");
+		} catch (Exception e) {
+			log.error("Exception occured ",e);
+			throw new BoException();
+		}	
+	}
+
+	public boolean userNameForValidationBO(String userName) throws BoException{
+		log.debug("in userNameForValidationBO");
+
+		try {
+			adminDao = new AdminDao(getConnection());
+			return adminDao.validationForUserNameDao(userName);
+		} catch (DaoException e) {
+			log.error("Exception occured ",e);
+			throw new BoException("DAOException Occured");
+		} catch (Exception e) {
+			log.error("Exception occured ",e);
+			throw new BoException();
+		}	
+	}
 	
 	
 }

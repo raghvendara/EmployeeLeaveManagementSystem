@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.log4j.Logger;
 
+import com.alacriti.elm.resteasy.modelClasses.EmployeeLeaveInfo;
 import com.alacriti.elm.resteasy.modelClasses.ForgotPasswordInfo;
 import com.alacriti.elm.resteasy.modelClasses.LeaveApplicationDetails;
 import com.alacriti.elm.resteasy.modelClasses.NewPasswordInfo;
@@ -21,6 +22,7 @@ import com.alacriti.elm.resteasy.modelClasses.ResponseToLoginPost;
 import com.alacriti.elm.resteasy.modelClasses.UserLoginInfo;
 import com.alacriti.elm.resteasy.resourceDeligate.DeligateLogin;
 import com.alacriti.elm.resteasy.resourceDeligate.UserDeligate;
+import com.alacriti.elm.utilities.SessionUtility;
 
 @XmlRootElement
 @Path("/login")
@@ -102,9 +104,18 @@ public class UserResource {
 
 		UserDeligate userDeligate=new UserDeligate();
 		return userDeligate.deligateLeaveApplication(leaveApplicationDetails);
+	}
+	@POST
+	@Path("/apply-leave/leaveValidity")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public EmployeeLeaveInfo leaveValidationResource(String empId){
+		log.debug("in leaveValidationResource");
+
+		UserDeligate userDeligate=new UserDeligate();
+		return userDeligate.deligateLeaveValidation(empId);
 		
 		 
 	}
-	
 	
 }

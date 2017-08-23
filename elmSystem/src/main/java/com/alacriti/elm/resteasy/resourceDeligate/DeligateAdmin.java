@@ -11,11 +11,12 @@ import com.alacriti.elm.resteasy.modelClasses.EmployeeLeaveInfo;
 import com.alacriti.elm.resteasy.modelClasses.EmployeeLeaveList;
 import com.alacriti.elm.resteasy.modelClasses.EmployeeProfile;
 import com.alacriti.elm.resteasy.modelClasses.RequestedEmployeeInfo;
+import com.alacriti.elm.utilities.MailingService;
 
 public class DeligateAdmin extends BaseDeligate{
 	public static final Logger log= Logger.getLogger(DeligateAdmin.class);
-
-
+	MailingService sendMail=new MailingService();
+	
 	public List<RequestedEmployeeInfo> deligateRequestedEmployeeInfo(String projectName, String designation)
 	{
 		log.debug("in deligateRequestedEmployeeInfo");
@@ -26,8 +27,8 @@ public class DeligateAdmin extends BaseDeligate{
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			LoginBo sampleBO = new LoginBo(connection);
-			emp_list = sampleBO.requestedEmployeeInfoBO(projectName,designation);
+			LoginBo loginBO = new LoginBo(connection);
+			emp_list = loginBO.requestedEmployeeInfoBO(projectName,designation);
 		} catch (Exception e) {
 			log.error("Exception occured ",e);
 			rollBack = true;
@@ -40,16 +41,19 @@ public class DeligateAdmin extends BaseDeligate{
 
 	public boolean deligateAcceptLeave(RequestedEmployeeInfo requestedEmployeeInfo, String designation) {
 		log.debug("in deligateAcceptLeave");
-
+		
+		boolean flagToAcceptLeave=false;
 		boolean rollBack = false;
 		Connection connection = null;
-		LoginBo sampleBO;
+		LoginBo loginBO;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			sampleBO = new LoginBo(connection);
-			
-			return sampleBO.acceptLeaveBO(requestedEmployeeInfo,designation);
+			loginBO = new LoginBo(connection);
+			flagToAcceptLeave = loginBO.acceptLeaveBO(requestedEmployeeInfo,designation);
+			if(flagToAcceptLeave)
+				sendMail.send("dummytesting799@gmail.com","raghava@799",requestedEmployeeInfo.getEmail(),"Leave Notification","your leave has been successfully accepted by your:  "+ designation);
+			return flagToAcceptLeave;
 
 		} catch (Exception e) {
 			log.error("Exception occured ",e);
@@ -58,23 +62,27 @@ public class DeligateAdmin extends BaseDeligate{
 		} finally {
 			endDBTransaction(connection, rollBack);
 		}
-		//return false;
-		//return false;
 		
 	}
 
 	public boolean deligateRejectLeave(RequestedEmployeeInfo requestedEmployeeInfo, String designation) {
 		log.debug("in deligateRejectLeave");
-
+		
+		boolean flagToAcceptLeave=false;
 		boolean rollBack = false;
 		Connection connection = null;
-		LoginBo sampleBO;
+		LoginBo loginBO;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			sampleBO = new LoginBo(connection);
+			loginBO = new LoginBo(connection);
 			
-			return sampleBO.rejectLeaveBO(requestedEmployeeInfo,designation);
+			flagToAcceptLeave= loginBO.rejectLeaveBO(requestedEmployeeInfo,designation);
+			
+			if(flagToAcceptLeave)
+				sendMail.send("dummytesting799@gmail.com","raghava@799",requestedEmployeeInfo.getEmail(),"Leave Notification","your leave has been rejected by your:  "+ designation);
+
+			return flagToAcceptLeave;
 
 		} catch (Exception e) {
 			log.error("Exception occured ",e);
@@ -93,13 +101,13 @@ public class DeligateAdmin extends BaseDeligate{
 		
 		boolean rollBack = false;
 		Connection connection = null;
-		LoginBo sampleBO;
+		LoginBo loginBO;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			sampleBO = new LoginBo(connection);
+			loginBO = new LoginBo(connection);
 			
-			emp_info=sampleBO.getSerchEpmInfoBO(emp_id);
+			emp_info=loginBO.getSerchEpmInfoBO(emp_id);
 
 		} catch (Exception e) {
 			log.error("Exception occured ",e);
@@ -116,13 +124,13 @@ public class DeligateAdmin extends BaseDeligate{
 
 		boolean rollBack = false;
 		Connection connection = null;
-		LoginBo sampleBO;
+		LoginBo loginBO;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			sampleBO = new LoginBo(connection);
+			loginBO = new LoginBo(connection);
 			
-			return sampleBO.getEpmLeaveListBO(emp_id);
+			return loginBO.getEpmLeaveListBO(emp_id);
 
 		} catch (Exception e) {
 			log.error("Exception occured ",e);
@@ -139,13 +147,13 @@ public class DeligateAdmin extends BaseDeligate{
 
 		boolean rollBack = false;
 		Connection connection = null;
-		LoginBo sampleBO;
+		LoginBo loginBO;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			sampleBO = new LoginBo(connection);
+			loginBO = new LoginBo(connection);
 			
-			return sampleBO.addEmpInfoBO(addEmpInfo);
+			return loginBO.addEmpInfoBO(addEmpInfo);
 
 		} catch (Exception e) {
 			log.error("Exception occured ",e);
@@ -161,13 +169,13 @@ public class DeligateAdmin extends BaseDeligate{
 
 		boolean rollBack = false;
 		Connection connection = null;
-		LoginBo sampleBO;
+		LoginBo loginBO;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			sampleBO = new LoginBo(connection);
+			loginBO = new LoginBo(connection);
 			
-			return sampleBO.getEmpProfileBO(emp_id);
+			return loginBO.getEmpProfileBO(emp_id);
 
 		} catch (Exception e) {
 			log.error("Exception occured ",e);
@@ -185,13 +193,13 @@ public class DeligateAdmin extends BaseDeligate{
 
 		boolean rollBack = false;
 		Connection connection = null;
-		LoginBo sampleBO;
+		LoginBo loginBO;
 		try {
 			connection = startDBTransaction();
 			setConnection(connection);
-			sampleBO = new LoginBo(connection);
+			loginBO = new LoginBo(connection);
 			
-			return sampleBO.editProfileBO(employeeProfile);
+			return loginBO.editProfileBO(employeeProfile);
 
 		} catch (Exception e) {
 			log.error("Exception occured ",e);
@@ -201,5 +209,49 @@ public class DeligateAdmin extends BaseDeligate{
 			endDBTransaction(connection, rollBack);
 		}
 		
+	}
+
+	public boolean deligateEmpIDForValidation(String empID) {
+		log.debug("in deligateEmpIDForValidation");
+
+		boolean rollBack = false;
+		Connection connection = null;
+		LoginBo loginBO;
+		try {
+			connection = startDBTransaction();
+			setConnection(connection);
+			loginBO = new LoginBo(connection);
+			
+			return loginBO.empIDForValidationBO(empID);
+
+		} catch (Exception e) {
+			log.error("Exception occured ",e);
+			rollBack = true;
+			return false;
+		} finally {
+			endDBTransaction(connection, rollBack);
+		}
+	}
+
+	public boolean deligateUserNameForValidation(String userName) {
+		log.debug("in deligateUserNameForValidation");
+
+		boolean rollBack = false;
+		Connection connection = null;
+		LoginBo loginBO;
+		try {
+			connection = startDBTransaction();
+			setConnection(connection);
+			loginBO = new LoginBo(connection);
+			
+			return loginBO.userNameForValidationBO(userName);
+
+		} catch (Exception e) {
+			log.error("Exception occured ",e);
+			rollBack = true;
+			return false;
+		} finally {
+			endDBTransaction(connection, rollBack);
+		}
 	}
 }

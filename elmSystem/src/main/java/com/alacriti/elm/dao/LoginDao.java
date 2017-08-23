@@ -34,7 +34,10 @@ public class LoginDao extends BaseDao  {
 			String designation=null;
 			String projectName=null;
 			boolean flag=false;
-			String sqlCommand="select l.emp_id,l.user_name,l.password,i.emp_fName,i.emp_lName,i.emp_designation,i.project_name from raghava_EmpLeavePortal_LoginCredentials as l join raghava_EmpLeavePortal_EmpInfo as i on l.emp_id=i.emp_id where l.user_name=? and l.password=?;";
+			String sqlCommand="select l.emp_id,l.user_name,l.password,i.emp_fName,i.emp_lName,"
+					+ "i.emp_designation,i.project_name from raghava_EmpLeavePortal_LoginCredentials"
+					+ " as l join raghava_EmpLeavePortal_EmpInfo as i on l.emp_id=i.emp_id "
+					+ "where l.user_name=? and l.password=?;";
 
 			try {
 				connection = getConnection();

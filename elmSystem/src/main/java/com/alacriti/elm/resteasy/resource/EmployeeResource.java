@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 
 import com.alacriti.elm.resteasy.modelClasses.EmployeeProfile;
 import com.alacriti.elm.resteasy.resourceDeligate.DeligateAdmin;
+import com.alacriti.elm.utilities.SessionUtility;
 
 @XmlRootElement
 @Path("/employee")

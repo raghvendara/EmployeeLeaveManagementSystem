@@ -5,6 +5,7 @@ import java.sql.Connection;
 import org.apache.log4j.Logger;
 
 import com.alacriti.elm.bo.UserBo;
+import com.alacriti.elm.resteasy.modelClasses.EmployeeLeaveInfo;
 import com.alacriti.elm.resteasy.modelClasses.LeaveApplicationDetails;
 
 public class UserDeligate extends BaseDeligate{
@@ -22,7 +23,7 @@ public class UserDeligate extends BaseDeligate{
 			connection = startDBTransaction();
 			setConnection(connection);
 			UserBo userBO = new UserBo(connection);
-			flag= userBO.LeaveApplicationBo(leaveApplicationDetails);
+			flag= userBO.leaveApplicationBo(leaveApplicationDetails);
 		} catch (Exception e) {
 			log.error("Exception occured ",e);
 			rollBack = true;
@@ -30,6 +31,24 @@ public class UserDeligate extends BaseDeligate{
 			endDBTransaction(connection, rollBack);
 		}
 		return flag;
+	}
+
+	public EmployeeLeaveInfo deligateLeaveValidation(String empId) {
+		boolean rollBack = false;
+		Connection connection = null;
+		try {
+			connection = startDBTransaction();
+			setConnection(connection);
+			UserBo userBO = new UserBo(connection);
+			return userBO.leaveValidationBo(empId);
+		} catch (Exception e) {
+			log.error("Exception occured ",e);
+			rollBack = true;
+		} finally {
+			endDBTransaction(connection, rollBack);
+		}
+		return null;
+		
 	}
 	
 

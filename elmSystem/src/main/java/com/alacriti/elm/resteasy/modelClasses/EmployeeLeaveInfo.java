@@ -30,6 +30,16 @@ public class EmployeeLeaveInfo {
 		return fullName;
 	}
 
+	public EmployeeLeaveInfo(int availed_leaves, int bal_in_sick,
+			int bal_in_casual, int bal_in_privilege, int total_bal_leaves) {
+		super();
+		this.availed_leaves = availed_leaves;
+		this.bal_in_sick = bal_in_sick;
+		this.bal_in_casual = bal_in_casual;
+		this.bal_in_privilege = bal_in_privilege;
+		this.total_bal_leaves = total_bal_leaves;
+	}
+
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}

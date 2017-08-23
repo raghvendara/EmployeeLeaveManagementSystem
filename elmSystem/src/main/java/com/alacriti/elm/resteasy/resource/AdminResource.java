@@ -20,6 +20,7 @@ import com.alacriti.elm.resteasy.modelClasses.EmployeeLeaveInfo;
 import com.alacriti.elm.resteasy.modelClasses.EmployeeLeaveList;
 import com.alacriti.elm.resteasy.modelClasses.RequestedEmployeeInfo;
 import com.alacriti.elm.resteasy.resourceDeligate.DeligateAdmin;
+import com.alacriti.elm.utilities.SessionUtility;
 
 @XmlRootElement
 @Path("/admin")
@@ -36,7 +37,6 @@ public class AdminResource {
 				@PathParam("designation") String designation,@Context HttpServletRequest request)
 		{
 			log.debug("in getRequestedEmployeesList");
-
 			return deligateAdmin.deligateRequestedEmployeeInfo(projectName,designation);
 		}
 
@@ -79,8 +79,7 @@ public class AdminResource {
 		@Path("search/leavelist/{emp_id}")
 		@Produces(MediaType.APPLICATION_JSON)
 		
-		public List<EmployeeLeaveList> getRequestedEmployeeLeaveList(@PathParam("emp_id") String emp_id,
-				@Context HttpServletRequest request)
+		public List<EmployeeLeaveList> getRequestedEmployeeLeaveList(@PathParam("emp_id") String emp_id)
 		{
 			log.debug("in getRequestedEmployeeLeaveList");
 
@@ -96,5 +95,23 @@ public class AdminResource {
 			log.debug("in addEmpResource");
 
 			return deligateAdmin.deligateAddEmpInfo(addEmpInfo); 
+		}
+		@POST
+		@Consumes(MediaType.TEXT_PLAIN)
+		@Path("/addEmployee/validation")
+		@Produces(MediaType.TEXT_PLAIN)
+		public boolean validationForEmpIDResource(String empID)
+		{	
+			log.debug("in validationForEmpIDResource");
+			return deligateAdmin.deligateEmpIDForValidation(empID); 
+		}
+		@POST
+		@Consumes(MediaType.TEXT_PLAIN)
+		@Path("/addEmployee/validate-userName")
+		@Produces(MediaType.TEXT_PLAIN)
+		public boolean validationForUserNameResource(String userName)
+		{	
+			log.debug("in validationForUserNameResource");
+			return deligateAdmin.deligateUserNameForValidation(userName); 
 		}
 	}	
