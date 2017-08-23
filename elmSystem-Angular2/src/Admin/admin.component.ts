@@ -29,6 +29,8 @@ export class AdminComponent implements OnInit {
      this.emp_id = params['emp_id'];
      this.designation = params['designation'];
      this.projectName = params['projectName'];
+     this._loginService.setIsLogStatus(true);
+     this._loginService.setUserDesignation(this.designation);
    });
       this._employeeServive.getRequestedEmployees(this.projectName, this.designation)
         .subscribe(resEmploeeData => this.employees = resEmploeeData,
@@ -43,23 +45,27 @@ export class AdminComponent implements OnInit {
   }
   acceptLeave(emoployee, designation) {
     this._employeeServive.acceptRequestedLeave(emoployee, designation)
-      .subscribe(resEmploeeData => this.leaveAcceptToken = resEmploeeData,
+      .subscribe(resEmploeeData => { this.leaveAcceptToken = resEmploeeData;
+          console.log('leave accept token :' + resEmploeeData);
+          if ( resEmploeeData === true) {
+            this._employeeServive.getRequestedEmployees(this.projectName, this.designation)
+              .subscribe(resEmploeeData => this.employees = resEmploeeData,
+                resEmployeeError => this.errorMsg = resEmployeeError);      }
+      },
         resEmployeeError => this.errorMsg = resEmployeeError);
-    console.log('leave accept token :' + this.leaveAcceptToken);
-      this.router.navigate(['/admin/admin-page', this._loginService.getUserData()]);
   }
   rejectLeave(emoployee, designation) {
     this._employeeServive.rejectRequestedLeave(emoployee, designation)
-      .subscribe(resEmploeeData => this.leaveRejectToken = resEmploeeData,
+      .subscribe(resEmploeeData => {this.leaveRejectToken = resEmploeeData;
+          console.log('leave reject token :' + resEmploeeData);
+          if (resEmploeeData === true) {
+            this._employeeServive.getRequestedEmployees(this.projectName, this.designation)
+              .subscribe(resEmploeeData => this.employees = resEmploeeData,
+                resEmployeeError => this.errorMsg = resEmployeeError);       }
+          },
         resEmployeeError => this.errorMsg = resEmployeeError);
-      this.router.navigate(['/admin/admin-page', this._loginService.getUserData()]);
+      // this.router.navigate(['/admin/admin-page', this._loginService.getUserData()]);
   }
-  // routeToEmpSearch() {
-  //   this.router.navigate(['/admin/search']);
-  // }
-  // addEmp() {
-  //   this.router.navigate(['/admin/addEmployee']);
-  // }
   logout() {
     this._employeeServive.destroySession()
       .subscribe(resEmploeeData => this.sessionDestroyToken = resEmploeeData,

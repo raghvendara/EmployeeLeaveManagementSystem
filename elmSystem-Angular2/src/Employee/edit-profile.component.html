@@ -29,7 +29,7 @@
       <div class="alert alert-danger" *ngIf="editProfileForm.controls['project'].hasError('required')">
         please enter user name
       </div>
-      <input type="text"  class="form-control"  #project formControlName="designation" placeholder={{profile.designation}}  autofocus>
+      <input type="text"  class="form-control"  #project formControlName="designation" placeholder={{profile.designation}} required autofocus>
 
 
       <button  type="submit" [disabled]="!editProfileForm.valid" class="btn btn-lg btn-primary btn-block">Submit</button>
@@ -46,7 +46,7 @@
   </div>
 
   <div style="margin-top: " class="alert alert-success" *ngIf=" editProfileToken === true">
-    <strong>Success!</strong> your password has been changed successfully...
+    <strong>Success!</strong> your profile has been changed successfully...
   </div>
 
 </div>

@@ -11,19 +11,25 @@
 
     <tr>
       <td>
+        <span style="float: left;margin-right: 3px">*</span>
         <input  type="text"  #Fname required class="form-control" formControlName="firstName" placeholder="First Name" required autofocus>
       </td>
+
       <!--<div [hidden]="Fname.valid" class="alert alert-danger">please enter name</div>-->
       <td>
-        <input id="lname" type="text" #LName class="form-control" formControlName="lastName" placeholder="Last Name" required autofocus>
+        <input id="lname" type="text" #LName class="form-control" formControlName="lastName" placeholder="Last Name"  autofocus>
       </td>
     </tr>
-
     <tr>
-      <td><input id="eid" type="text"  class="form-control" formControlName="empID" placeholder="Employee ID" required autofocus></td>
       <td>
+        <span style="float: left;margin-right: 3px">*</span>
+        <input id="eid" type="text"  class="form-control" formControlName="empID" #employee_id   (blur)="checkEmpIdValidity(employee_id.value)" placeholder="Employee ID" required maxlength="5" autofocus>
+      <p *ngIf="isEmpIdValid === false" style="color: red;text-align: center"><strong>Error:</strong> employee id already exists..!</p>
+      </td>
 
-        <select class="form-control" formControlName="designation" id="designation">
+      <td>
+        <span style="float: left;margin-right: 3px">*</span>
+        <select class="form-control" formControlName="designation" id="designation" required>
           <option selected disabled>Select Designation</option>
           <option value="employee">Employee</option>
           <option value="PM">Project Manager</option>
@@ -34,13 +40,8 @@
     </tr>
     <tr>
       <td>
-        <!--<select class="selectpicker">-->
-          <!--<option>Mustard</option>-->
-          <!--<option>Ketchup</option>-->
-          <!--<option>Relish</option>-->
-        <!--</select>-->
-
-        <select class="selectpicker" class="form-control" formControlName="project" id="sel1">
+        <span style="float: left;margin-right: 3px">*</span>
+        <select class="selectpicker" class="form-control" formControlName="project" id="sel1" required>
           <option selected disabled>Select Project</option>
           <option value="orbipay">Orbipay</option>
           <option value="hsbc">HSBC</option>
@@ -51,22 +52,25 @@
 
     <tr>
       <td>
-        <input type="email" class="form-control"  formControlName="email" placeholder="email">
+        <span style="float: left;margin-right: 3px">*</span>
+        <input type="email" class="form-control" #email  formControlName="email" required  placeholder="email">
       </td>
       <td>
-        <input type="text" class="form-control" id="mobile"  formControlName="mobileNumber" placeholder="Mobile Number">
-      </td>
-    </tr>
-
-
-    <tr>
-      <td>
-        <input type="text" class="form-control"  formControlName="userName" placeholder="User Name">
+        <span style="float: left;margin-right: 3px">*</span>
+        <input type="number" class="form-control" id="mobile" required formControlName="mobileNumber" placeholder="Mobile Number">
       </td>
     </tr>
     <tr>
       <td>
-        <input type="password" class="form-control"   formControlName="password" placeholder="Password">
+        <span style="float: left;margin-right: 3px">*</span>
+        <input type="text" class="form-control" #userName   (blur)="checkUserNameValidity(userName.value)"  formControlName="userName" required placeholder="User Name">
+      </td>
+    </tr>
+    <p *ngIf="isUserNameValid === false" style="color: red;text-align: center"><strong>Error:</strong> userName already exists please try with another one..!</p>
+    <tr>
+      <td>
+        <span style="float: left;margin-right: 3px">*</span>
+        <input type="password" class="form-control"   formControlName="password" required placeholder="Password">
       </td>
       <!--<td>-->
         <!--<input type="password" class="form-control" id="passwd2"  formControlName="password2" placeholder="Confirm Password">-->
@@ -76,7 +80,7 @@
 
     <tr>
       <td colspan="2">
-        <button type="submit" class="btn btn-lg btn-primary">Register Employee</button>
+        <button type="submit" [disabled]="!empForm.valid || !(email.value.match('@'&&'.com')) || isEmpIdValid === false || isUserNameValid === false" class="btn btn-lg btn-primary">Register Employee</button>
         <button type="reset" class="btn btn-lg btn-primary">Clear Form</button>
       </td>
     </tr>
@@ -89,6 +93,12 @@
 
 </form>
 
+</div>
+<div class="container">
+  <p> Fields which are shown with asterisk(*) symbol are mandatory</p>
+</div>
+<div style="margin-top: " class="alert alert-success" *ngIf=" responseToAdd === true">
+  <strong>Success!</strong> you have added the employee successfully ...
 </div>
 </body>
 </html>

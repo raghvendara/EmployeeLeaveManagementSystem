@@ -9,7 +9,7 @@ import {Observer} from "rxjs/Observer";
 
 export class LoginServiceComponent {
   public loggedUser: string;
-  public isLoggeIn: boolean;
+  public isLoggeIn = false;
   public userDesignation: string;
   public userData: any;
 

@@ -34,7 +34,6 @@
 <div class="icon-bar" *ngIf="isLoggedIn===true && loggedUserDesignation ==='HR'">
   <a class="active" (click)="goToAdminDashBoard()"><i class="fa fa-home"></i> Dashboard</a>
   <a (click)="goToEditProfile()"><i class="glyphicon glyphicon-edit"></i> edit profile</a>
-  <a (click)="applyLeave()"><i class="glyphicon glyphicon-envelope"></i> apply leave</a>
   <a  (click)="searchEmployee()"><i class="glyphicon glyphicon-search"></i> search employee</a>
   <a (click)="addEmployee()"><i class="glyphicon glyphicon-plus-sign"></i> add employee</a>
   <a *ngIf="isLoggedIn===true" (click)="onLogOutClick()" ><i class="glyphicon glyphicon-log-out"></i> logout</a>

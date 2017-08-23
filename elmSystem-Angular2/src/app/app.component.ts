@@ -8,7 +8,7 @@ import {RoutingModule} from './routing.module';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'ELM System';
   public flagtonav = true;
   isLoggedIn: boolean = false;
@@ -33,6 +33,8 @@ export class AppComponent implements OnInit{
     this._loginService.userDesignationUpdated.subscribe(
       (userDesignation) => {
         this.loggedUserDesignation = this._loginService.getUserDesignation();
+        console.log('in app component : ' + this._loginService.getUserDesignation());
+
       }
     );
     this._loginService.userDataUpdated.subscribe(

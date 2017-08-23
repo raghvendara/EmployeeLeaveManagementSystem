@@ -8,10 +8,10 @@
 
 <div class="container">
 <h4 style="color: #555555;text-shadow: 1px 1px 2px #000000;"><b>Welcome {{name}} ({{emp_id}}) ({{designation}}) ({{projectName}})</b></h4>
-<h4 style="margin-top: 30px;margin-bottom: 30px" *ngIf="employees!== null"><b>Requested Eemployees for Leave</b></h4>
-  <h4 style="margin-top: 30px;margin-bottom: 30px" *ngIf="employees===null"><b>You have no requests for Leaves ...!</b></h4>
+<h4 style="margin-top: 30px;margin-bottom: 30px" *ngIf="employees?.length > 0"><b>Requested Eemployees for Leave</b></h4>
+  <h4 style="margin-top: 30px;margin-bottom: 30px" *ngIf="employees?.length === 0"><b>You have no requests for Leaves ...!</b></h4>
 
-  <table *ngIf="employees!==null" class="table table-hover">
+  <table *ngIf="employees?.length > 0" class="table table-hover">
     <tr>
       <td><b>Employee ID</b></td>
       <td><b>Name</b></td>

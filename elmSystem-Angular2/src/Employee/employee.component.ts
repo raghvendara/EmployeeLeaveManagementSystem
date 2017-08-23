@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {EmployeeService} from '../app/employeeService.component';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import {LoginServiceComponent} from "../Login/loginService.component";
 
 @Component({
   selector: 'app-employee',
@@ -20,7 +21,8 @@ export class EmployeeComponent implements OnInit {
   public successForList;
   public errorForList;
   public errorMsg;
-  constructor(private _employeeServive: EmployeeService, private route: ActivatedRoute, private router: Router,) {}
+  constructor(private _employeeServive: EmployeeService, private route: ActivatedRoute, private router: Router,
+              private  _loginService: LoginServiceComponent) {}
   ngOnInit() {
     this.getEmpInfo = this.route.snapshot.params['data'];
     this.route.params.subscribe((params: Params) => {
@@ -28,6 +30,8 @@ export class EmployeeComponent implements OnInit {
       this.emp_id = params['emp_id'];
       this.designation = params['designation'];
       this.projectName = params['projectName'];
+      this._loginService.setIsLogStatus(true);
+      this._loginService.setUserDesignation('employee');
     });
     this._employeeServive.getEmpLeaveListService(this.emp_id)
       .subscribe(resEmploeeData => {

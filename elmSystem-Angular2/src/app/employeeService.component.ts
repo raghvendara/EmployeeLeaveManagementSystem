@@ -159,4 +159,31 @@ export class EmployeeService {
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }
+  checkEmpIdValidityService(empID: string) {
+    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/admin/addEmployee/validation';
+    const headers = new Headers();
+    headers.append('Content-Type',
+      'application/json');
+    return this._http.post(_url, empID )
+      .map((response: Response) => response.json())
+      .catch(this._errorHandler);
+  }
+  checkLeaveValidity(empID) {
+    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/login/apply-leave/leaveValidity';
+    const headers = new Headers();
+    headers.append('Content-Type',
+      'application/json');
+    return this._http.post(_url, empID )
+      .map((response: Response) => response.json())
+      .catch(this._errorHandler);
+  }
+  checkUserNameValidityService(userName: string) {
+    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/admin/addEmployee/validate-userName';
+    const headers = new Headers();
+    headers.append('Content-Type',
+      'application/json');
+    return this._http.post(_url, userName )
+      .map((response: Response) => response.json())
+      .catch(this._errorHandler);
+  }
 }
