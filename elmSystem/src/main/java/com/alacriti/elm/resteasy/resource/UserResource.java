@@ -28,6 +28,7 @@ import com.alacriti.elm.utilities.SessionUtility;
 @Path("/login")
 public class UserResource {
 	public static final Logger log= Logger.getLogger(UserResource.class);
+	SessionUtility sessionUtility=new SessionUtility();
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -99,21 +100,25 @@ public class UserResource {
 	@Path("/apply-leave")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public boolean applyLeaveResourse(LeaveApplicationDetails leaveApplicationDetails){
+	public boolean applyLeaveResourse(LeaveApplicationDetails leaveApplicationDetails,
+			@Context HttpServletRequest request){
 		log.debug("in applyLeaveResourse");
-
 		UserDeligate userDeligate=new UserDeligate();
-		return userDeligate.deligateLeaveApplication(leaveApplicationDetails);
+		if(sessionUtility.checkForSession(request))
+			return userDeligate.deligateLeaveApplication(leaveApplicationDetails);
+		else return false;
 	}
 	@POST
 	@Path("/apply-leave/leaveValidity")
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
-	public EmployeeLeaveInfo leaveValidationResource(String empId){
+	public EmployeeLeaveInfo leaveValidationResource(String empId,@Context HttpServletRequest request){
 		log.debug("in leaveValidationResource");
 
 		UserDeligate userDeligate=new UserDeligate();
-		return userDeligate.deligateLeaveValidation(empId);
+		if(sessionUtility.checkForSession(request))
+			return userDeligate.deligateLeaveValidation(empId);
+		else return null;
 		
 		 
 	}

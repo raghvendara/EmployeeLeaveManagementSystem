@@ -3,6 +3,7 @@ package com.alacriti.elm.resteasy.resource;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -37,7 +38,10 @@ public class AdminResource {
 				@PathParam("designation") String designation,@Context HttpServletRequest request)
 		{
 			log.debug("in getRequestedEmployeesList");
-			return deligateAdmin.deligateRequestedEmployeeInfo(projectName,designation);
+			//HttpSession session = request.getSession(false);
+			
+				return deligateAdmin.deligateRequestedEmployeeInfo(projectName,designation);
+			//else return null;
 		}
 
 		@POST
