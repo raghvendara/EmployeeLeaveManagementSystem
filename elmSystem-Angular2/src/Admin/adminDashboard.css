@@ -1,9 +1,9 @@
-/*.container{*/
-  /*margin-top: 20px;*/
-  /*margin-left: 30px;*/
-  /*width: auto;*/
-  /*float: left;*/
-/*}*/
+.container{
+  margin-top: 20px;
+  margin-left: 30px;
+  width: auto;
+  float: left;
+}
 .list-group
 {
   padding-top: 10px;
@@ -57,10 +57,3 @@
   background-color: #d5d5d5;
 }
 
-.Routing
-{
-  /*background-color: rgba(2,2,2,0.36);*/
-  min-height: 480px;
-  width: 100%;
-  color: white;
-}

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {EmployeeService} from './employeeService.component';
 import {Observable} from 'rxjs/Observable';
-import {LoginServiceComponent} from "../Login/loginService.component";
+import {LoginServiceComponent} from '../Login/loginService.component';
 
 
 @Injectable()

@@ -9,27 +9,25 @@ import {Headers} from '@angular/http';
 // import {EmployeeListComponent} from './employee.list.component';
 @Injectable()
 export class EmployeeService {
-  private _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/login';
-  // isLoggedIn= true;
-  // getStatus() { return this.isLoggedIn; }
-  // setStatus(status) { this.isLoggedIn = status; }
-  // authInfo$: EmployeeService;
+  private baseUrl = 'http://';
+  private domainName = 'localhost';
+  private portNumber = '8080';
+  private basePath = this.baseUrl + this.domainName + ':' + this.portNumber +  '/elmSystem';
   constructor(private _http: Http) {}
   _errorHandler(error: Response) {
     console.error(error);
     return Observable.throw(error || 'Server Error');
   }
   checkForSession() {
-    const _url2 = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/login/checkSession';
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
-    return this._http.get(_url2, { headers: headers, withCredentials: true })
+    return this._http.get(this.basePath + '/login/checkSession', { headers: headers, withCredentials: true })
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }
   getEmployees() {
-    return this._http.get(this._url)
+    return this._http.get(this.basePath + '/login')
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
 
@@ -38,22 +36,23 @@ export class EmployeeService {
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
-    return this._http.post(this._url, postData, { headers: headers, withCredentials: true })
-      .map((res: Response) => res.json())
+    return this._http.post(this.basePath + '/login', postData, { headers: headers, withCredentials: true })
+      .map( (res: Response) => res.json())
+       // console.log('in login post status : ' + res.status + 'head : ' + res.headers);)
         .catch(this._errorHandler);
   }
   getRequestedEmployees(projectName, designation) {
-   const _url2 = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/admin/' + designation + '/' + projectName;
+   const _url2 = this.basePath + '/admin/' + designation + '/' + projectName;
     console.log(_url2);
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
-    return this._http.get(_url2)
+    return this._http.get(_url2, { headers: headers, withCredentials: true })
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }
   acceptRequestedLeave(emoployee, designation) {
-    const _url3 = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/admin/accept/' + designation;
+    const _url3 = this.basePath + '/admin/accept/' + designation;
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
@@ -62,7 +61,7 @@ export class EmployeeService {
       .catch(this._errorHandler);
   }
   rejectRequestedLeave(emoployee, designation) {
-    const _url4 = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/admin/reject/' + designation;
+    const _url4 = this.basePath + '/admin/reject/' + designation;
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
@@ -71,7 +70,7 @@ export class EmployeeService {
       .catch(this._errorHandler);
   }
   getEmployeeInfo(emp_id) {
-    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/admin/search/' + emp_id;
+    const _url = this.basePath + '/admin/search/' + emp_id;
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
@@ -81,7 +80,7 @@ export class EmployeeService {
   }
   getEmpLeaveListService(emp_id) {
     console.log('going for rest to get the list');
-    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/admin/search/leavelist/' + emp_id;
+    const _url = this.basePath + '/admin/search/leavelist/' + emp_id;
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
@@ -90,7 +89,7 @@ export class EmployeeService {
       .catch(this._errorHandler);
   }
   addEmployee(empForm) {
-    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/admin/addEmployee';
+    const _url = this.basePath + '/admin/addEmployee';
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
@@ -99,7 +98,7 @@ export class EmployeeService {
       .catch(this._errorHandler);
   }
   forgotPassword(forgotPasswdData) {
-    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/login/forgotPassword';
+    const _url = this.basePath + '/login/forgotPassword';
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
@@ -108,7 +107,7 @@ export class EmployeeService {
       .catch(this._errorHandler);
   }
   newPassword(newPasswordData, emp_id) {
-    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/login/resetPassword';
+    const _url = this.basePath + '/login/resetPassword';
     const postData = {
       'passWd' : newPasswordData.passWd,
       'cPassWd' : newPasswordData.cPassWd,
@@ -123,7 +122,7 @@ export class EmployeeService {
   }
   destroySession() {
     console.log('in destroy session going to rest....')
-    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/login/destroySession';
+    const _url = this.basePath + '/login/destroySession';
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
@@ -133,7 +132,7 @@ export class EmployeeService {
   }
   getEmpProfile(emp_id) {
     console.log('going to rest for profile with id' + emp_id);
-    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/employee/get-profile/' + emp_id;
+    const _url = this.basePath + '/employee/get-profile/' + emp_id;
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
@@ -142,7 +141,7 @@ export class EmployeeService {
       .catch(this._errorHandler);
   }
   editProfile(editProfileForm) {
-    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/employee/edit-profile';
+    const _url = this.basePath + '/employee/edit-profile';
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
@@ -151,16 +150,16 @@ export class EmployeeService {
       .catch(this._errorHandler);
   }
   applyLeave(applyLeaveForm) {
-    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/login/apply-leave';
+    const _url = this.basePath + '/login/apply-leave';
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
-    return this._http.post(_url, applyLeaveForm )
+    return this._http.post(_url, applyLeaveForm, { headers: headers, withCredentials: true })
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }
   checkEmpIdValidityService(empID: string) {
-    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/admin/addEmployee/validation';
+    const _url = this.basePath + '/admin/addEmployee/validation';
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
@@ -168,17 +167,17 @@ export class EmployeeService {
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }
-  checkLeaveValidity(empID) {
-    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/login/apply-leave/leaveValidity';
+  checkLeaveValidity(empID: string) {
+    const _url = this.basePath + '/login/apply-leave/leaveValidity';
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');
-    return this._http.post(_url, empID )
+    return this._http.post(_url, empID, {withCredentials: true } )
       .map((response: Response) => response.json())
       .catch(this._errorHandler);
   }
   checkUserNameValidityService(userName: string) {
-    const _url = 'http://localhost:8080/elmSystem-1.0-SNAPSHOT/admin/addEmployee/validate-userName';
+    const _url = this.basePath + '/admin/addEmployee/validate-userName';
     const headers = new Headers();
     headers.append('Content-Type',
       'application/json');

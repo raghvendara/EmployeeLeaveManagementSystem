@@ -23,6 +23,7 @@ export class ForgotPasswordComponent {
           if (data.flag === true) {
             // console.log(this._employeeServive.getStatus());
             console.log('for forgot password : ' + data.flag);
+            this.forgotPwdForm.reset();
             // this._employeeServive.setStatus(false);this.router.navigate(['/admin', data]);
             // console.log(this._employeeServive.getStatus());['/admin', data]
             this.responseData = data;

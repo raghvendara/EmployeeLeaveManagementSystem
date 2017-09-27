@@ -4,10 +4,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {LoginServiceComponent} from "../Login/loginService.component";
+import {AdminDashBoardComponent} from "./adminDashBoard.component";
 
 
 @NgModule({
-  declarations: [],
+  declarations: [AdminDashBoardComponent],
   imports: [
     BrowserModule, FormsModule, HttpModule, ReactiveFormsModule
   ],

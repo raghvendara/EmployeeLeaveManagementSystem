@@ -15,13 +15,18 @@ import {LoginModule} from '../Login/login.module';
 import {EmployeeModule} from '../Employee/employee.module';
 import {EmployeeSearchModule} from '../EmployeeSearch/employeeSearch.module';
 import {LoginServiceComponent} from '../Login/loginService.component';
+import { LocalStorageModule } from 'angular-2-local-storage';
 @NgModule({
   declarations: [
     AppComponent, routingComponents
   ],
   imports: [
     BrowserModule, FormsModule, HttpModule, ReactiveFormsModule, RoutingModule,
-    RouterModule, AdminModule, LoginModule, EmployeeModule, EmployeeSearchModule
+    RouterModule, AdminModule, LoginModule, EmployeeModule, EmployeeSearchModule,
+    LocalStorageModule.withConfig({
+      prefix: 'my-app',
+      storageType: 'localStorage'
+    })
   ],
   providers: [EmployeeService, AuthGuardService, LoginServiceComponent],
   bootstrap: [AppComponent]

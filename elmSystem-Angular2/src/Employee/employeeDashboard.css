@@ -1,0 +1,33 @@
+.TableForSearchResult
+{
+  text-align: center;
+  border-style: solid;
+}
+hr {
+  color: black;
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 1.5em;
+  border-style: inset;
+}
+
+.button
+{
+  margin-top: 20px;
+  margin-left: 10%;
+  margin-bottom: 20px;
+  float: left;
+}
+.showTable,.empInfo
+{
+  padding-top: 5%;
+  margin-left: 5%;
+}
+.container
+{
+  margin-top: 15px;
+
+}
+td{
+  text-align: center;
+}

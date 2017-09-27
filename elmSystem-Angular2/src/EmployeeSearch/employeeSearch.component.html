@@ -26,7 +26,9 @@
   <!--<button class="btn btn-primary" type="submit" (click)="goToAdminPage()">go to admin page</button>-->
 <!--</div>-->
 <p *ngIf="error" style="text-align: center;color: red">employee not found..!!</p>
-<div *ngIf="success" class="container">
+<div *ngIf="success"  class="container">
+  <h4> <strong style="color: rgba(150,66,124,0.85)">click on the employee to his/her leave list</strong></h4>
+
   <table class="table table-hover">
     <tr>
       <td><b>Name of Employee</b></td>
@@ -37,20 +39,25 @@
       <td><b>bal_in_privilege</b></td>
       <td><b>total_bal_leaves</b></td>
     </tr>
-    <tr>
-      <td>{{emp_id.fullName}}</td>
-      <td>{{emp_id.emp_id}}</td>
-      <td>{{emp_id.availed_leaves}}</td>
-      <td>{{emp_id.bal_in_sick}}</td>
-      <td>{{emp_id.bal_in_casual}}</td>
-      <td>{{emp_id.bal_in_privilege}}</td>
-      <td>{{emp_id.total_bal_leaves}}</td>
+
+    <tr *ngFor="let emp of emp_id" (click)="getEmpLeaveList(emp.emp_id,emp.fullName)">
+      <td>{{emp.fullName}}</td>
+      <td>{{emp.emp_id}}</td>
+      <td>{{emp.availed_leaves}}</td>
+      <td>{{emp.bal_in_sick}}</td>
+      <td>{{emp.bal_in_casual}}</td>
+      <td>{{emp.bal_in_privilege}}</td>
+      <td>{{emp.total_bal_leaves}}</td>
     </tr>
 
   </table>
-  <button class="btn btn-primary" type="submit" (click)="getEmpLeaveList(emp_id.emp_id)" >employee Leaves List</button>
+  <!--<button class="btn btn-primary" type="submit" (click)="getEmpLeaveList(emp_id.emp_id)" >employee Leaves List</button>-->
   <div *ngIf="successForList" class="container">
     <!--*ngIf="empLeaveList.leaveID"-->
+    <h3>
+      <strong style="color: rgba(235,65,182,0.65)">{{nameOfEmp}}</strong>
+        's leave list
+    </h3>
     <table class="table table-hover">
       <tr>
         <td><b>leaveId</b></td>

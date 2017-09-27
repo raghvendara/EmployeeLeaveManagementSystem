@@ -27,7 +27,7 @@ export class LoginServiceComponent {
     this.userDesignationUpdated.emit(this.userDesignation);
   }
 
-  setIsLogStatus(value: boolean) {
+  setIsLogStatus(value: any) {
     this.isLoggeIn = value;
     this.isLoggedInUpdated.emit(this.isLoggeIn);
 

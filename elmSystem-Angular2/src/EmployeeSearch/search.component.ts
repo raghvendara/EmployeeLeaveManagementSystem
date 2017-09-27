@@ -9,6 +9,7 @@ import {EmployeeService} from '../app/employeeService.component';
 })
 export class SearchComponent {
   title = 'Search Employee';
+  public nameOfEmp;
   public errorMsg;
   public empId;
   public error;
@@ -27,6 +28,7 @@ export class SearchComponent {
     this.route.navigate(['/admin']);
   }
   searchEmployee(emp_id) {
+    this.successForList = false;
     this._employeeServive.getEmployeeInfo(emp_id)
       .subscribe(resEmploeeData => {
         if (resEmploeeData != null) {
@@ -40,7 +42,8 @@ export class SearchComponent {
         },
         resEmployeeError => this.errorMsg = resEmployeeError);
   }
-  getEmpLeaveList(emp_id) {
+  getEmpLeaveList(emp_id, fullName) {
+    this.nameOfEmp = fullName;
     this._employeeServive.getEmpLeaveListService(emp_id)
       .subscribe(resEmploeeData => {
           if (resEmploeeData != null) {

@@ -11,19 +11,31 @@ import {ForgotPasswordComponent} from '../Login/forgotPassword.component';
 import {ResetPasswordComponent} from '../Login/resetPassword.component';
 import {EditProfileComponent} from '../Employee/edit-profile.component';
 import {ApplyLeaveComponent} from '../Employee/apply-leave.component';
+import {AdminDashBoardComponent} from "../Admin/adminDashBoard.component";
+import {EmployeeDashboardComponent} from "../Employee/employeeDashboard.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'home/login', component: LoginComponent },
-  { path: 'admin/admin-page', canActivate : [AuthGuardService], component: AdminComponent },
-  { path: 'admin/search', canActivate : [AuthGuardService], component: SearchComponent },
-  { path: 'admin/addEmployee', canActivate : [AuthGuardService], component: AddEmpComponent },
-  { path: 'employee', canActivate : [AuthGuardService], component: EmployeeComponent },
+  { path: 'admin', canActivate : [AuthGuardService], component: AdminComponent,
+    children: [
+      { path: 'search', canActivate : [AuthGuardService], component: SearchComponent },
+      { path: 'dash-board', canActivate : [AuthGuardService], component: AdminDashBoardComponent },
+      { path: 'addEmployee', canActivate : [AuthGuardService], component: AddEmpComponent },
+      { path: 'edit-profile/:emp_id', canActivate : [AuthGuardService], component: EditProfileComponent },
+
+    ]
+  },
+  { path: 'employee', canActivate : [AuthGuardService], component: EmployeeComponent,
+    children: [
+      { path: 'apply-leave/:emp_id', canActivate : [AuthGuardService], component: ApplyLeaveComponent },
+      { path: 'dash-board', canActivate : [AuthGuardService], component: EmployeeDashboardComponent },
+      { path: 'edit-profile/:emp_id', canActivate : [AuthGuardService], component: EditProfileComponent },
+    ]
+  },
   { path: 'home/login/forgotPassword', component: ForgotPasswordComponent },
   { path: 'home/login/forgotPassword/resetPassword', component: ResetPasswordComponent },
-  { path: 'employee/edit-profile/:emp_id', canActivate : [AuthGuardService], component: EditProfileComponent },
-  { path: 'employee/apply-leave/:emp_id', canActivate : [AuthGuardService], component: ApplyLeaveComponent },
 
   ];
 @NgModule({

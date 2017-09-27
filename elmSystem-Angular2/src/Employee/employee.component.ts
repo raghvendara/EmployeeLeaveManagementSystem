@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {EmployeeService} from '../app/employeeService.component';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {LoginServiceComponent} from "../Login/loginService.component";
+import {LocalStorageService} from "angular-2-local-storage/dist";
 
 @Component({
   selector: 'app-employee',
@@ -10,6 +11,7 @@ import {LoginServiceComponent} from "../Login/loginService.component";
 })
 export class EmployeeComponent implements OnInit {
   title = 'Employee';
+  public sessionDestroyToken;
   public getEmpInfo;
   public name;
   public emp_id;
@@ -21,49 +23,14 @@ export class EmployeeComponent implements OnInit {
   public successForList;
   public errorForList;
   public errorMsg;
-  constructor(private _employeeServive: EmployeeService, private route: ActivatedRoute, private router: Router,
+  constructor(private _employeeServive: EmployeeService, private route: ActivatedRoute,
+              private router: Router, private localStorageService: LocalStorageService,
               private  _loginService: LoginServiceComponent) {}
   ngOnInit() {
-    this.getEmpInfo = this.route.snapshot.params['data'];
-    this.route.params.subscribe((params: Params) => {
-      this.name = params['fullName'];
-      this.emp_id = params['emp_id'];
-      this.designation = params['designation'];
-      this.projectName = params['projectName'];
-      this._loginService.setIsLogStatus(true);
-      this._loginService.setUserDesignation('employee');
-    });
-    this._employeeServive.getEmpLeaveListService(this.emp_id)
-      .subscribe(resEmploeeData => {
-          if (resEmploeeData != null) {
-            this.myLeaveList = resEmploeeData;
-            this.successForList = true;
-            console.log('got emp leave list' + this.successForList);
-            this.errorForList = false;
-          }else {
-            console.log(' emp leave list not returned');
-            this.errorForList = true;
-            this.successForList = false;
-          }
-        },
-        // this.empLeaveList = resEmploeeData,
-        resEmployeeError => this.errorMsg = resEmployeeError);
-
-    this._employeeServive.getEmployeeInfo(this.emp_id)
-      .subscribe(resEmploeeData => {
-
-          if (resEmploeeData != null) {
-            this.leavesInfo = resEmploeeData;
-            this.success = true;
-            this.errorForList = false;
-          }else {
-            this.errorForList = true;
-            this.success = false;
-          }
-        },
-        // this.empLeaveList = resEmploeeData,
-        resEmployeeError => this.errorMsg = resEmployeeError);
-
+    this.emp_id = this.localStorageService.get('emp_id');
+    this.name = this.localStorageService.get('fullName');
+    this.designation  = this.localStorageService.get('designation');
+    this.projectName = this.localStorageService.get('projectName');
   }
   editProfile() {
     console.log('in employee comp :' + this.emp_id);
@@ -72,5 +39,18 @@ export class EmployeeComponent implements OnInit {
   applyLeave() {
     console.log('in employee comp going to apply leave:' + this.emp_id);
     this.router.navigate(['employee/apply-leave', this.emp_id]);
+  }
+  goToEmpDashBoard() {
+    console.log('in employee comp going to dash board:' + this.emp_id);
+    this.router.navigate(['employee/dash-board']);
+  }
+  logout() {
+    this._loginService.setIsLogStatus(false);
+    this.localStorageService.clearAll();
+    this._employeeServive.destroySession()
+      .subscribe(resEmploeeData => this.sessionDestroyToken = resEmploeeData,
+        resEmployeeError => this.errorMsg = resEmployeeError);
+    console.log('destroyed session: =====>' + this.sessionDestroyToken);
+    this.router.navigate(['/home']);
   }
 }
