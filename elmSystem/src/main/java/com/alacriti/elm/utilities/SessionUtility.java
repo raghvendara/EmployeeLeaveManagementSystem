@@ -1,5 +1,6 @@
 package com.alacriti.elm.utilities;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -24,6 +25,8 @@ public class SessionUtility {
 		log.debug("in destroySession");
 
 		HttpSession session= request.getSession();
+		String JSessionID = request.getSession(true).getId(); 
+		System.out.println("session id is : " + JSessionID);
 		session.invalidate();
 		return checkForSession(request);
 	}

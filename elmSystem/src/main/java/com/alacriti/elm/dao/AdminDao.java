@@ -229,8 +229,10 @@ public class AdminDao extends BaseDao{
 		}
 		
 	}
-	public EmployeeLeaveInfo getSerchEpmInfoDao(String emp_id) throws DaoException {
+	public List<EmployeeLeaveInfo> getSerchEpmInfoDao(String emp_id) throws DaoException {
 		log.debug("in getSerchEpmInfoDao");
+		
+		List<EmployeeLeaveInfo> searchList = new ArrayList<EmployeeLeaveInfo>();
 
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -247,11 +249,11 @@ public class AdminDao extends BaseDao{
 			stmt.setString(3, emp_id+'%');
 
 			rs= stmt.executeQuery();
-			if(rs.next())
-				return new EmployeeLeaveInfo(rs.getString(1),rs.getInt(2),rs.getInt(3),rs.getInt(4),
-						rs.getInt(5),rs.getInt(6),rs.getString(7)+"    "+rs.getString(8));
-			else
-				return null;
+			while(rs.next()){
+				searchList.add( new EmployeeLeaveInfo(rs.getString(1),rs.getInt(2),rs.getInt(3),
+						rs.getInt(4),rs.getInt(5),rs.getInt(6),rs.getString(7)+"    "+rs.getString(8)));
+			}
+			return searchList;
 		} catch (SQLException e) {
 			log.error("Exception occured ",e);
 			throw new DaoException("SQLException in selectMessage():", e);

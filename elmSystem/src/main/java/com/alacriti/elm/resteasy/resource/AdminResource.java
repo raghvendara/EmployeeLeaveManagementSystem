@@ -3,7 +3,6 @@ package com.alacriti.elm.resteasy.resource;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -72,7 +71,7 @@ public class AdminResource {
 		@Path("/search/{empId}")
 		@Produces(MediaType.APPLICATION_JSON)
 		
-		public EmployeeLeaveInfo getRequestedEmployeeInfoforSearch(@PathParam("empId") String emp_id,
+		public List<EmployeeLeaveInfo> getRequestedEmployeeInfoforSearch(@PathParam("empId") String emp_id,
 				@Context HttpServletRequest request)
 		{
 			log.debug("in getRequestedEmployeeInfoforSearch");

@@ -50,17 +50,25 @@
 	  <version>1.2.16</version>
 	  <scope>provided</scope>
 	</dependency>
-	    
+
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.42</version>
+	</dependency>
   </dependencies>
   
   <build>
     <plugins>
         <plugin>
+        
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-war-plugin</artifactId>
             <version>2.6</version>
+			       
             <configuration>
                 <failOnMissingWebXml>false</failOnMissingWebXml>
+                <warName>${artifactId}</warName> 
             </configuration>
         </plugin>
     </plugins>

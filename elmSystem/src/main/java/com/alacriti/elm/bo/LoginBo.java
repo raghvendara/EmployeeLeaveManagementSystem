@@ -102,7 +102,7 @@ public class LoginBo extends BaseBO {
 		}
 	}
 
-	public EmployeeLeaveInfo getSerchEpmInfoBO(String emp_id) throws BoException{
+	public List<EmployeeLeaveInfo> getSerchEpmInfoBO(String emp_id) throws BoException{
 		log.debug("in getSerchEpmInfoBO");
 
 		try {

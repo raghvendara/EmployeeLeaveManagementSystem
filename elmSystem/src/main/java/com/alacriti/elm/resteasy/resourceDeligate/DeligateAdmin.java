@@ -93,12 +93,9 @@ public class DeligateAdmin extends BaseDeligate{
 		}
 	}
 
-	public EmployeeLeaveInfo deligateRequestedEmployeeInfoforSearch(
+	public List<EmployeeLeaveInfo> deligateRequestedEmployeeInfoforSearch(
 			String emp_id) {
-		log.debug("in deligateRequestedEmployeeInfoforSearch");
-
-		EmployeeLeaveInfo emp_info=null;
-		
+		log.debug("in deligateRequestedEmployeeInfoforSearch");		
 		boolean rollBack = false;
 		Connection connection = null;
 		LoginBo loginBO;
@@ -106,16 +103,15 @@ public class DeligateAdmin extends BaseDeligate{
 			connection = startDBTransaction();
 			setConnection(connection);
 			loginBO = new LoginBo(connection);
-			
-			emp_info=loginBO.getSerchEpmInfoBO(emp_id);
-
+			return loginBO.getSerchEpmInfoBO(emp_id);
 		} catch (Exception e) {
 			log.error("Exception occured ",e);
 			rollBack = true;
 		} finally {
 			endDBTransaction(connection, rollBack);
 		}
-		return emp_info;
+		return null;
+		
 	}
 
 	public List<EmployeeLeaveList> deligateRequestedEmployeeLeaveList(
